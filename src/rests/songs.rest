@@ -1,0 +1,34 @@
+GET http://localhost:1234/songs
+
+###
+
+POST http://localhost:1234/songs HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Song 6",
+    "artist": "Artist 1",
+    "album": "Album 1",
+    "year": 2000,
+    "genre": "Genre 1",
+    "duration": 100
+}
+
+###
+
+DELETE http://localhost:1234/songs/64833471dd9c2c2e66e34ddf
+
+###
+
+PATCH http://localhost:1234/songs/6483352ddd9c2c2e66e34df3 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Song 10",
+    "artist": "Artist changed",
+    "album": "Album 1",
+    "year": 2023,
+    "genre": "Genre 1",
+    "duration": 120
+
+}
