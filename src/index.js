@@ -6,7 +6,10 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/mongo');
+const getToken = require('./config/spotifyApi');
 const PORT = process.env.PORT || 5000;
+
+
 
 const app = express();
 //middleWares
@@ -17,6 +20,8 @@ app.use(cors());
 
 //routes
 app.use('/songs', require('./routes/songs.routes'));
+app.use('/users', require('./routes/users.routes'));
+app.use('/orders', require('./routes/orders.routes'));
 
 
 

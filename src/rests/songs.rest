@@ -6,29 +6,51 @@ POST http://localhost:1234/songs HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Song 6",
-    "artist": "Artist 1",
-    "album": "Album 1",
-    "year": 2000,
-    "genre": "Genre 1",
-    "duration": 100
+    "title": "Plain Jane",
+    "artist": "A$AP Ferg",
+    "album": "Still Striving",
+    "year": 2017,
+    "genre": ["Hip Hop", "Rap"],
+    "duration": 173600,
+    "album_image": "https://i.scdn.co/image/ab67616d0000b273d79cfa3155b50beb5dbeeb9a",
+    "preview_url":"https://p.scdn.co/mp3-preview/34934b16056fc0f696dfccfd48ec62b1202d5b18?cid=38e67659f07443c3be7ebf8f88362892"
 }
 
 ###
 
-DELETE http://localhost:1234/songs/64833471dd9c2c2e66e34ddf
+DELETE http://localhost:1234/songs/Plain_JaneA$AP_FergStill_Striving2017
 
 ###
 
-PATCH http://localhost:1234/songs/6483352ddd9c2c2e66e34df3 HTTP/1.1
+PATCH http://localhost:1234/songs/Plain_JaneA$AP_FergStill_Striving2017 HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Song 10",
-    "artist": "Artist changed",
-    "album": "Album 1",
-    "year": 2023,
-    "genre": "Genre 1",
-    "duration": 120
-
+    "title": "Plain Jane",
+    "artist": "A$AP Ferg",
+    "album": "Still Striving",
+    "year": 2017,
+    "genre": ["Hip Hop", "Rap"],
+    "duration": 173600,
+    "album_image": "https://i.scdn.co/image/ab67616d0000b273d79cfa3155b50beb5dbeeb9a",
+    "preview_url":"https://p.scdn.co/mp3-preview/34934b16056fc0f696dfccfd48ec62b1202d5b18?cid=38e67659f07443c3be7ebf8f88362892"
 }
+
+###
+
+curl -X POST "https://accounts.spotify.com/api/token" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "grant_type=client_credentials&client_id=38e67659f07443c3be7ebf8f88362892&client_secret=627725320547433196284da785fcb187"
+
+###
+
+
+curl "https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb" \
+     -H "Authorization: Bearer  BQAsKeUYf-tPbmT0GXi1VV83-N4R_QFzVi2IIE7TZNPlqTIQrLAkLPJNVN5n58Cl-wR7Dz4oggmtdPZuw_727bHWF3Kw-Qc2Z60-C3vq2pt_-vnOpBk"
+
+
+###
+
+curl --request GET \
+  --url https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy \
+  --header 'Authorization: Bearer BQCuWq...noUVSg'
