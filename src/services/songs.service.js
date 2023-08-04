@@ -3,7 +3,12 @@ const getToken = require('../config/spotifyApi');
 
 
 const getAllSongs = async () => {
-    return await Song.find();
+    try{
+        return await Song.find();
+    }
+    catch(error){
+        throw new Error(error.message)
+    }
 }
 
 // const getAllSongs = async () => {
@@ -105,13 +110,13 @@ const createSong = async (song) => {
     //create song and return it
 
     const { title, artist, album, year, genre, duration, price, album_image, preview_url } = song;
-    if (!title || !artist || !album || !year || !duration) {
+    if (!title || !artist || !album || year===undefined || duration===undefined) {
         throw new Error('All fields are required');
     }
-    let id = title + artist + album + year;
-    id = id.replace(/\s+/g, '_');
+    //let id = title + artist + album + year;
+    //id = id.replace(/\s+/g, '_');
 
-    const checkSong = await Song.findOne({ _id:id});
+    const checkSong = await Song.findOne(song);
     if (checkSong) {
        throw new Error('Song already exists');
     }
@@ -119,7 +124,7 @@ const createSong = async (song) => {
         console.log("created")
         const newSong = new Song(
             {
-                _id: id,
+               // _id: id,
                 title,
                 artist,
                 album,
@@ -162,12 +167,28 @@ const deleteSong = async (id) => {
 const updateSong = async (id, newSong) => {
     if(id){
         console.log("newSong:",newSong)
-        const { title, artist, album, year, genre, duration } = newSong;
-        if (!title || !artist || !album || !year || !genre || !duration) {
+        const { title, artist, album, year, genre, duration} = newSong;
+        if (!title || !artist || !album || year===undefined || !genre || duration===undefined) {
             throw new Error('All fields are required');
         }
         await Song.findOneAndUpdate({_id: id}, newSong);
         return;
+    }
+    throw new Error('Id is required');
+}
+
+const increaseNumOfPurchases = async (id) => {
+    if(id){
+        try{
+            const song = await Song.findById(id);
+            if(song){
+                song.numOfPurchases++;
+                updateSong(id, song);
+                return;
+            }
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
     throw new Error('Id is required');
 }
@@ -181,5 +202,6 @@ module.exports = {
     getSongsByArtist,
     getSongsByAlbum,
     getSongsByGenre,
-    getSongsByYear
+    getSongsByYear,
+    increaseNumOfPurchases
 }

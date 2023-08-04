@@ -213,7 +213,7 @@ const getLastFiveSales = async () => {
 const getTodaySales = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
-        {$match: {"songs.date": {$gte: new Date(new Date().setHours(00, 00, 00)), $lte: new Date(new Date().setHours(23, 59, 59))}}},
+        {$match: {"songs.date": {$gte: new Date(new Date().setHours(0o0, 0o0, 0o0)), $lte: new Date(new Date().setHours(23, 59, 59))}}},
         {$group: {
                 _id: null,
                 count: {$sum: 1}

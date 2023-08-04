@@ -60,9 +60,9 @@ const createUser = async (user) => {
             if(!name || !email || !password){
                 throw new Error('Name, email and password are required');
             }
-            const id = (email+name).replace(/\s/g, '_');
+            //const id = (email+name).replace(/\s/g, '_');
             const newUser = new User({
-                _id: id,
+                //_id: id,
                 name,
                 email,
                 password
@@ -120,7 +120,25 @@ const updateUser = async (id, newUser) => {
     throw new Error('Id is required');
 }
 
+const addOrderToUser = async (id, orderID) => {
+    if (id) {
+        try{
+            const user = await User.findById(id);
+            if(user){
+                user.orders.push(orderID);
+                updateUser(id, user);
+                return orderID;
+            }
+            throw new Error('User not found');
+        }
+        catch(error){
+            throw new Error(error.message)
+        }
+    }
+}
+
 module.exports = {
+    addOrderToUser,
     getAllUsers,
     getUserById,
     getUserByName,

@@ -1,0 +1,12 @@
+GET http://localhost:6969/users
+
+###
+
+POST http://localhost:6969/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Tal Mekler",
+    "email": "Mekler@gmail.com",
+    "password": "123456"
+}

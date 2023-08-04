@@ -1,18 +1,18 @@
-GET http://localhost:1234/songs
+GET http://localhost:6969/songs
 
 ###
 
-POST http://localhost:1234/songs HTTP/1.1
+POST http://localhost:6969/songs HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Plain Jane",
-    "artist": "A$AP Ferg",
-    "album": "Still Striving",
-    "year": 2017,
-    "genre": ["Hip Hop", "Rap"],
-    "duration": 173600,
-    "album_image": "https://i.scdn.co/image/ab67616d0000b273d79cfa3155b50beb5dbeeb9a",
+    "title": "Mekleron24",
+    "artist": "Burgeron24",
+    "album": "Bendaron24",
+    "year": 2022,
+    "genre": ["AniBeshok24", "Rap24"],
+    "duration": 1234,
+    "album_image": "https://avatars.githubusercontent.com/u/81577071?v=4",
     "preview_url":"https://p.scdn.co/mp3-preview/34934b16056fc0f696dfccfd48ec62b1202d5b18?cid=38e67659f07443c3be7ebf8f88362892"
 }
 
@@ -22,17 +22,17 @@ DELETE http://localhost:1234/songs/Plain_JaneA$AP_FergStill_Striving2017
 
 ###
 
-PATCH http://localhost:1234/songs/Plain_JaneA$AP_FergStill_Striving2017 HTTP/1.1
+PATCH http://localhost:6969/songs/MekleronBurgeronBendaron2023 HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Plain Jane",
-    "artist": "A$AP Ferg",
-    "album": "Still Striving",
-    "year": 2017,
-    "genre": ["Hip Hop", "Rap"],
-    "duration": 173600,
-    "album_image": "https://i.scdn.co/image/ab67616d0000b273d79cfa3155b50beb5dbeeb9a",
+    "title": "Mekleron1",
+    "artist": "Burgeron1",
+    "album": "Bendaron1",
+    "year": 2024,
+    "genre": ["AniBeshok1", "Rap1"],
+    "duration": 12345,
+    "album_image": "https://avatars.githubusercontent.com/u/81577071?v=4",
     "preview_url":"https://p.scdn.co/mp3-preview/34934b16056fc0f696dfccfd48ec62b1202d5b18?cid=38e67659f07443c3be7ebf8f88362892"
 }
 

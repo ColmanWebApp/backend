@@ -1,5 +1,5 @@
 const Order = require('../models/OrderSchema');
-
+const {Types: {ObjectId}} = require('mongoose');
 const getAllOrders = async () => {
     const orders = await Order.find();
     return orders;
@@ -32,7 +32,8 @@ const getOrderById = async (id) => {
 }
 
 const createOrder = async (order) => {
-    const newOrder = new Order(order);
+    console.log("inside order",order)
+    const newOrder = new Order({user: order.user, songs: order.songs});
     await newOrder.save();
     return newOrder;
 }

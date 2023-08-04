@@ -22,14 +22,14 @@ const UserScheme = new mongoose.Schema({
         minlength: 3,
         maxlength: 500
     },
-    _id: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 3,
-        maxlength: 50,
-        unique: true
-    },
+    // _id: {
+    //     type: String,
+    //     required: true,
+    //     trim: true,
+    //     minlength: 3,
+    //     maxlength: 50,
+    //     unique: true
+    // },
     isAdmin: {
         type: Boolean,
         default: false

@@ -1,0 +1,13 @@
+GET http://localhost:6969/orders
+
+###
+
+POST http://localhost:6969/orders HTTP/1.1
+content-type: application/json
+
+{
+            "user": "64ccda5b21505d7f627e45da",
+            "songs": [
+            "64ccda0c5fad016c15f71c3d"
+            ]
+}

@@ -5,7 +5,7 @@ const curl = require('curl');
 const getAllSongs = async (req, res) => {
     try {
         const songs = await songService.getAllSongs();
-        await console.log(songs)
+        console.log(songs)
         res.status(200).json(songs);
     } catch (error) {
         res.status(500).json({ message: error.message });
