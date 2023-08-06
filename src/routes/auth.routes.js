@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const User = require('../models/UserScheme');
+const userController = require('../controllers/users.controller');
 const initializePassport = require('../config/passport-config');
 
 initializePassport(passport, email => {
-    return User.findOne({ email: email });
+    return userController.getUserByEmail(email);
 }, id => {
-    return User.findById(id);
+    return userController.getUserById(id);
 });
 
 router.post(
@@ -32,16 +32,17 @@ router.post(
     async (req, res) => {
       try {
         // const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const checkUser = await User.findOne({ email: req.body.email });
+        const checkUser = await userController.getUserByEmail(req.body.email);
         if (checkUser) {
           return res.status(402).json({ error: "Email already exists" });
         }
-        const user = new User({
-          name: req.body.name,
-          email: req.body.email,
-          password: req.body.password,
-        });
-        user.save();
+        userController.createUser(
+            {
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+            }
+        )
         console.log("User has registered: ",user);
         res.sendStatus(200);
       } catch {
