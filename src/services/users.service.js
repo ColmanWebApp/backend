@@ -60,6 +60,9 @@ const createUser = async (user) => {
             if(!name || !email || !password){
                 throw new Error('Name, email and password are required');
             }
+            if(await getUserByEmail(email)){
+                throw new Error('Email already exists');
+            }
             //const id = (email+name).replace(/\s/g, '_');
             const newUser = new User({
                 //_id: id,
