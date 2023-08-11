@@ -37,6 +37,7 @@ const createOrder = async (req, res) => {
     try {
         const {order, token} = req.body;
         const decodedToken = jwt.decode(token);
+        console.log(decodedToken)
         const user = await userService.getUserById(decodedToken.id);
         const mySongs = [];
         for(let i = 0; i < order.songs.length; i++){
@@ -50,6 +51,7 @@ const createOrder = async (req, res) => {
             songService.increaseNumOfPurchases(mySongs[i]);
         }
         userService.addOrderToUser(user._id, newOrder._id);
+        userService.addSongsToUser(user._id, mySongs);
         res.status(200).json(newOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
