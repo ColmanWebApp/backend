@@ -2,12 +2,23 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const userController = require('../controllers/users.controller');
-const validations = require('../validations/index')
 const initializePassport = require('../config/passport-config');
+const jwt = require('jsonwebtoken');
 
 
-
-
+const checkToken = (req, res, next) => {
+    const token = req.body.token;
+    if (!token) {
+        return res.status(401).json({message: "You must be logged in to access this resource"});
+    }
+    jwt.verify(token, process.env.JWT_SECRET, (err) => {
+        if (err) {
+            return res.status(403).json({message: "Invalid token"});
+        }
+        
+    });
+    next();
+}
 
 const loginAuth = (req, res, next) =>{
     passport.authenticate("local")
@@ -36,6 +47,7 @@ const logoutAuth = (req, res, next) =>{
 
 
 module.exports = {
+    checkToken,
     loginAuth,
     registerAuth,
     logoutAuth

@@ -6,8 +6,9 @@ POST http://localhost:6969/orders HTTP/1.1
 content-type: application/json
 
 {
-            "user": "64ccda5b21505d7f627e45da",
-            "songs": [
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Y2NkYTViMjE1MDVkN2Y2MjdlNDVkYSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTE3NTQzNjIsImV4cCI6MTcyMzI5MDM2Mn0.uHfKb1DdVeJuYhBgutdyuC8sBJlIkV4V8pDfZf6KVuA",
+            "order":{"songs": [
             "64ccda0c5fad016c15f71c3d"
             ]
+            }
 }

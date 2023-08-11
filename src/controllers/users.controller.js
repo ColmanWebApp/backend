@@ -126,6 +126,7 @@ const userLogin = async (req, res) => {
         const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
             expiresIn: '365d',
         });
+        console.log(token);
         //console.log("decoded token",jwt.decode(token))
         res.status(200).json({token: token});
     } catch (error) {
