@@ -2,7 +2,10 @@ GET http://localhost:6969/songs
 content-type: application/json
 
 {
-    "ids" :["64d2a2af3a54f70b2c2883f3","64ccda0c5fad016c15f71c3d","64ccd9dd5fad016c15f71c39"]
+    "ids" :["64d2a2af3a54f70b2c2883f3",
+    "64ccda0c5fad016c15f71c3d",
+    "64ccd9dd5fad016c15f71c39"
+    ]
 }
 ###
 
