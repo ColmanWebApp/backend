@@ -11,6 +11,22 @@ const getAllSongs = async () => {
     }
 }
 
+const getSongs = async (ids) => {
+    if(ids){
+        try{
+            const songs = await Song.find({_id: {$in: ids}});
+            if(songs){
+                return songs;
+            }
+            throw new Error('Songs not found');
+        }
+        catch(error){
+            throw new Error(error.message)
+        }
+    }
+    throw new Error('Ids are required');
+}
+
 // const getAllSongs = async () => {
 //     const token = await getToken();
 //     console.log("TOKEN",token)
@@ -195,6 +211,7 @@ const increaseNumOfPurchases = async (id) => {
 
 module.exports = {
     getAllSongs,
+    getSongs,
     createSong,
     deleteSong,
     updateSong,

@@ -1,4 +1,15 @@
 GET http://localhost:6969/songs
+content-type: application/json
+
+{
+    "ids" :["64d2a2af3a54f70b2c2883f3",
+    "64ccda0c5fad016c15f71c3d",
+    "64ccd9dd5fad016c15f71c39"
+    ]
+}
+###
+
+GET http://localhost:6969/songs/64ccda0c5fad016c15f71c3d
 
 ###
 
@@ -6,14 +17,14 @@ POST http://localhost:6969/songs HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Mekleron24",
-    "artist": "Burgeron24",
+    "title": "BdikaSong",
+    "artist": "BendaLulu",
     "album": "Bendaron24",
     "year": 2022,
-    "genre": ["AniBeshok24", "Rap24"],
+    "genre": ["AniBeshok24", "Alonko"],
     "duration": 1234,
     "album_image": "https://avatars.githubusercontent.com/u/81577071?v=4",
-    "preview_url":"https://p.scdn.co/mp3-preview/34934b16056fc0f696dfccfd48ec62b1202d5b18?cid=38e67659f07443c3be7ebf8f88362892"
+    "preview_url":"https://p.scdn.co/mp3-preview/98123a7d31111d0d9a61c21d4ce6e9215a8f5903?cid=38e67659f07443c3be7ebf8f88362892"
 }
 
 ###
