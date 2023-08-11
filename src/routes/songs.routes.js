@@ -4,7 +4,7 @@ const songController = require('../controllers/songs.controller');
 
 
 router
-.get('/', songController.getAllSongs)
+.get('/', songController.getSongs)
 .get('/:id', songController.getSongById)
 .get('/artist/:artist', songController.getSongsByArtist) //we can filter from the whole list of songs
 .get('/album/:album', songController.getSongsByAlbum) // ^^
