@@ -2,19 +2,21 @@ const songService = require('../services/songs.service');
 const curl = require('curl');
 
 
-const getSongs = async (req, res) => {
+const getAllSongs = async (req, res) => {
     try {
-        const {ids} = req.body;
-        console.log(ids)
-        if(ids){
-            const songs = await songService.getSongs(ids);
-            res.status(200).json(songs);
-        }
-    else{
         const songs = await songService.getAllSongs();
         console.log(songs)
         res.status(200).json(songs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
+}
+
+const getSongsByIds = async (req, res) => {
+    try {
+        const {ids} = req.body;
+        const songs = await songService.getSongsByIds(ids);
+        res.status(200).json(songs);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -105,7 +107,8 @@ const updateSong = async (req, res) => {
 }
 
 module.exports = {
-    getSongs,
+    getAllSongs,
+    getSongsByIds,
     createSong,
     deleteSong,
     updateSong,

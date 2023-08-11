@@ -11,7 +11,7 @@ const getAllSongs = async () => {
     }
 }
 
-const getSongs = async (ids) => {
+const getSongsByIds = async (ids) => {
     if(ids){
         try{
             const songs = await Song.find({_id: {$in: ids}});
@@ -211,7 +211,7 @@ const increaseNumOfPurchases = async (id) => {
 
 module.exports = {
     getAllSongs,
-    getSongs,
+    getSongsByIds,
     createSong,
     deleteSong,
     updateSong,

@@ -1,4 +1,4 @@
-GET http://localhost:6969/songs
+POST http://localhost:6969/songs
 content-type: application/json
 
 {
