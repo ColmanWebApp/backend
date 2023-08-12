@@ -53,7 +53,8 @@ const createOrder = async (req, res) => {
         //await userService.addOrderToUser(user._id, newOrder._id);
         //await userService.addSongsToUser(user._id, mySongs);
         user.orders.push(newOrder._id);
-        user.songs.push(...mySongs);
+        user.songs.push(...mySongs.filter(song => !user.songs.includes(song)));
+        
         userService.updateUser(user._id, user);
         res.status(200).json(newOrder);
     } catch (error) {
