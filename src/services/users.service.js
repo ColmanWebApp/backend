@@ -97,30 +97,39 @@ const deleteUser = async (id) => {
 }
 
 const updateUser = async (id, newUser) => {
-    const {name, email, password} = newUser;
-    if (id) {
+    if(id && newUser){
         try{
-            const user = await User.findById(id);
-            if(user){
-                if(name){
-                    user.name = name;
-                }
-                if(email){
-                    user.email = email;
-                }
-                if(password){
-                    user.password = password;
-                }
-                await user.save();
-                return user;
-            }
-            throw new Error('User not found');
-        }
-        catch(error){
+            await User.findOneAndUpdate({_id: id}, newUser);
+            return newUser;
+        } catch(error){
             throw new Error(error.message)
         }
     }
-    throw new Error('Id is required');
+    throw new Error('Id and new user are required');
+    // const {name, email, password} = newUser;
+    // if (id) {
+    //     try{
+    //         const user = await User.findById(id);
+    //         if(user){
+    //             if(name){
+    //                 user.name = name;
+    //             }
+    //             if(email){
+    //                 user.email = email;
+    //             }
+    //             if(password){
+    //                 user.password = password;
+    //             }
+    //             await user.save();
+    //             return user;
+    //         }
+    //         throw new Error('User not found');
+    //     }
+    //     catch(error){
+    //         throw new Error(error.message)
+    //     }
+    // }
+    // throw new Error('Id is required');
 }
 
 const addOrderToUser = async (id, orderID) => {
@@ -140,8 +149,28 @@ const addOrderToUser = async (id, orderID) => {
     }
 }
 
+const addSongsToUser = async (id, songs) => {
+    if (id) {
+        try{
+            const user = await User.findById(id);
+            if(user){
+                for(let i = 0; i < songs.length; i++){
+                    user.songs.push(songs[i]);
+                }
+                updateUser(id, user);
+                return user;
+            }
+            throw new Error('User not found');
+        }
+        catch(error){
+            throw new Error(error.message)
+        }
+    }
+}
+
 module.exports = {
     addOrderToUser,
+    addSongsToUser,
     getAllUsers,
     getUserById,
     getUserByName,

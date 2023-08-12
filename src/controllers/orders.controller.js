@@ -1,6 +1,7 @@
 const ordersService = require('../services/orders.service');
 const songService = require('../services/songs.service');
 const userService = require('../services/users.service');
+const jwt = require('jsonwebtoken');
 // const mongoose = require('mongoose');
 // const {Types: {ObjectId}} = require('mongoose');
 const getAllOrders = async (req, res) => {
@@ -34,20 +35,27 @@ const getOrderById = async (req, res) => {
 
 const createOrder = async (req, res) => {
     try {
-        const order = req.body;
-        const user = await userService.getUserById(order.user);
+        const {order, token} = req.body;
+        const decodedToken = jwt.decode(token);
+        console.log(decodedToken)
+        const user = await userService.getUserById(decodedToken.id);
         const mySongs = [];
         for(let i = 0; i < order.songs.length; i++){
             const song = await songService.getSongById(order.songs[i]);
-            console.log(song._id);
             mySongs.push(song._id);
         }
+        order.user = user._id;
         const newOrder = await ordersService.createOrder(order);
         console.log(newOrder);
         for(let i = 0; i < mySongs.length; i++){
             songService.increaseNumOfPurchases(mySongs[i]);
         }
-        userService.addOrderToUser(user._id, newOrder._id);
+        //await userService.addOrderToUser(user._id, newOrder._id);
+        //await userService.addSongsToUser(user._id, mySongs);
+        user.orders.push(newOrder._id);
+        user.songs.push(...mySongs.filter(song => !user.songs.includes(song)));
+        
+        userService.updateUser(user._id, user);
         res.status(200).json(newOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });

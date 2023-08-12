@@ -1,6 +1,6 @@
 const userService = require('../services/users.service');
 const session = require('express-session');
-
+const jwt = require('jsonwebtoken');
 
 const getAllUsers = async (req, res) => {
     try {
@@ -31,7 +31,8 @@ const getUserByName = async (req, res) => {
 
 const getUserByEmail = async (req, res) => {
     try {
-        const user = await userService.getUserByEmail(req.params.email);
+        console.log(req.body)
+        const user = await userService.getUserByEmail(req.body.email);
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -40,6 +41,7 @@ const getUserByEmail = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
+        console.log(req)
         const user = await userService.createUser(req.body);
         res.status(201).json(user);
     } catch (error) {
@@ -64,7 +66,7 @@ const updateUser = async (req, res) => {
         res.status(500).json({message: error.message});
     }
 }
-
+//not neccesary
 const login = async (req, res) => {
     try {
         const user = await userService.login(req.body);
@@ -75,6 +77,7 @@ const login = async (req, res) => {
     }
 }
 
+//not neccesary
 const logout = async (req, res) => {
     try {
         req.session.destroy();
@@ -111,6 +114,27 @@ const removeSongFromUser = async (req, res) => {
     }
 }
 
+const userLogin = async (req, res) => {  
+    try {
+        const user = await userService.getUserByEmail(req.body.email);
+        if (!user) {
+            return res.status(400).json({ error: "Email not found" });
+        }
+        if (user.password !== req.body.password) {
+            return res.status(400).json({ error: "Password is incorrect" });
+        }
+        const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
+            expiresIn: '365d',
+        });
+        console.log(token);
+        //console.log("decoded token",jwt.decode(token))
+        res.status(200).json({token: token});
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
+
 
 module.exports = {
     getAllUsers,
@@ -124,7 +148,8 @@ module.exports = {
     logout,
     getUserSongs,
     addSongToUser,
-    removeSongFromUser
+    removeSongFromUser,
+    userLogin
 }
 
 
