@@ -75,7 +75,7 @@ const getSongById = async (req, res) => {
 
 const createSong = async (req, res) => {
     try {
-        const song = req.body;
+        const {song} = req.body;
         console.log(song)
         const newSong = await songService.createSong(song);
         res.status(201).json(newSong);

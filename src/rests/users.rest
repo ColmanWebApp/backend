@@ -10,3 +10,13 @@ content-type: application/json
     "email": "Mekler@gmail.com",
     "password": "123456"
 }
+
+###
+
+POST http://localhost:6969/users/check-song/64d2a2af3a54f70b2c2883f3 HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Y2NkYTViMjE1MDVkN2Y2MjdlNDVkYSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTE4NjYwMDMsImV4cCI6MTcyMzQwMjAwM30.0XPpM2U6JWoGCDLYRYtb0UVBOvTWtmB3VE9PTf6uvck"
+
+}
