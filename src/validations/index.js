@@ -45,10 +45,25 @@ const logoutAuth = (req, res, next) =>{
     
 }
 
+const adminAuth = (req, res, next) =>{
+    const token = req.body.token;
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+        if (err) {
+            return res.status(403).json({message: "Invalid token"});
+        }
+        if(decodedToken.isAdmin === false){
+            return res.status(403).json({message: "You must be an admin to access this resource"});
+        }
+    });
+    next();
+}
+
+
 
 module.exports = {
     checkToken,
     loginAuth,
     registerAuth,
-    logoutAuth
+    logoutAuth,
+    adminAuth
 }
