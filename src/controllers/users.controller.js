@@ -136,10 +136,11 @@ const userLogin = async (req, res) => {
 
 const checkSong = async (req, res) => {
     try {
-        const {token, songId} = req.body;
+        const {token} = req.body;
+        const {id} = req.params;
         const decodedToken = jwt.decode(token);
         const user = await userService.getUserById(decodedToken.id);
-        const song = user.songs.find(song => song._id == songId);
+        const song = user.songs.find(song => song._id == id);
         if(song){
             res.status(200).json({isExist: true});
         }else{
