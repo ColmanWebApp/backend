@@ -62,15 +62,34 @@ const createOrder = async (req, res) => {
     }
 }
 
-//not necessary....
+//todo: make it a service
 const deleteOrder = async (req, res) => {
     try {
         const id = req.params.id;
         const order = await ordersService.deleteOrder(id);
+        const user = await userService.getUserById(order.user);
+        for(let i = 0; i < order.songs.length; i++){
+            order.songs[i] = await songService.getSongById(order.songs[i]);
+            order.songs[i].numOfPurchases--;
+            songService.updateSong(order.songs[i]._id, order.songs[i]);
+            user.songs.filter(song => song !== order.songs[i]);
+        }
+        user.orders = user.orders.filter(order => order !== id);
+        userService.updateUser(user._id, user);
+        
         res.status(200).json(order);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+}
+
+//todo: delete all orders
+const deleteAllOrders = async (Order) => {
+    const orders = await ordersService.getAllOrders();
+    for(let i = 0; i < orders.length; i++){
+        deleteOrder(orders[i]._id);
+    }
+
 }
 
 //not necessary....

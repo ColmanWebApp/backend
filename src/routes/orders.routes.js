@@ -8,7 +8,7 @@ router
 .get('/:id', orderController.getOrderById)
 .get('/user/:user', orderController.getOrdersByUser)
 .post('/', validations.checkToken, orderController.createOrder)
-.delete('/:id', validations.checkToken, validations.adminAuth, orderController.deleteOrder)
+.delete('/:id', orderController.deleteOrder)
 .patch('/:id', validations.checkToken, validations.adminAuth, orderController.updateOrder)
 
 module.exports = router;

@@ -12,7 +12,7 @@ const getUserById = async (id) => {
             if(user){
                 return user;
             }
-            throw new Error('User not found');
+            return null;
         }
         catch(error){
             throw new Error(error.message)
@@ -28,7 +28,7 @@ const getUserByName = async (name) => {
             if(user){
                 return user;
             }
-            throw new Error('User not found');
+            return null;
         }
         catch(error){
             throw new Error(error.message)
@@ -44,7 +44,7 @@ const getUserByEmail = async (email) => {
             if(user){
                 return user;
             }
-            throw new Error('User not found');
+            return null;
         }
         catch(error){
             throw new Error(error.message)
@@ -87,7 +87,7 @@ const deleteUser = async (id) => {
             if(user){
                 return user;
             }
-            throw new Error('User not found');
+            return null;
         }
         catch(error){
             throw new Error(error.message)
@@ -141,7 +141,7 @@ const addOrderToUser = async (id, orderID) => {
                 updateUser(id, user);
                 return orderID;
             }
-            throw new Error('User not found');
+            return null;
         }
         catch(error){
             throw new Error(error.message)
@@ -167,6 +167,8 @@ const addSongsToUser = async (id, songs) => {
         }
     }
 }
+
+
 
 module.exports = {
     addOrderToUser,
