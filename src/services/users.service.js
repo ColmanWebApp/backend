@@ -8,7 +8,13 @@ const getAllUsers = async () => {
 const getUserById = async (id) => {
     if (id) {
         try{
-            const user = await User.findById(id);
+            const user = await User.findById(id).populate({
+                path: 'orders',
+                populate: {
+                  path: 'songs',
+                  model: 'song'
+                }
+            });
             if(user){
                 return user;
             }

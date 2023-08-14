@@ -47,6 +47,7 @@ const getUserDetails = async (req, res) => {
         const user = await userService.getUserById(userId);
         //delete password key from user object
         user.password = undefined;
+        user.songs = undefined;
         console.log("user details",user);
         res.status(200).json(user);
     } catch (error) {
@@ -76,8 +77,17 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const user = await userService.updateUser(req.params.id, req.body);
-        res.status(200).json(user);
+        const {token} = req.body;
+        const {name, email, password} = req.body.updatedUser;
+        const decodedToken = jwt.decode(token);
+        const userId = decodedToken.id;
+        const user = await userService.getUserById(userId);
+        user.name = name;
+        user.email = email;
+        user.password = password;
+        const updatedUser = await userService.updateUser(userId, user);
+        updatedUser.password = undefined;
+        res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({message: error.message});
     }

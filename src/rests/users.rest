@@ -1,4 +1,9 @@
-GET http://localhost:6969/users
+POST http://localhost:6969/users/user-details/
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDQ4YzJmODAyYjhhMzgzY2QzMTM3ZCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTIwMzE2NjYsImV4cCI6MTcyMzU2NzY2Nn0.tjuIQKWiPuiVS-KhKGeUexsCsjg5JClO8Y7lkOj9eyw"
+}
 
 ###
 
@@ -18,22 +23,20 @@ content-type: application/json
 
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Y2NkYTViMjE1MDVkN2Y2MjdlNDVkYSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTE5NTY2ODcsImV4cCI6MTcyMzQ5MjY4N30.rQZyR5nAJS0bzjgFa1JbvawQPOq3aiOYVoC0Ts5MwZc"
-
 }
 
 ###
-PATCH http://localhost:6969/users/64d94d416c1776349bc1f88e HTTP/1.1
+PUT http://localhost:6969/users/ HTTP/1.1
 content-type: application/json
 
- {
-    "_id": "64d94d416c1776349bc1f88e",
-    "name": "test5",
-    "email": "test5@gmail.com",
-    "password": "123456789",
-    "isAdmin": false,
-    "songs": [],
-    "orders": [],
-    "__v": 0
-  }
+{
+
+ "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDQ4YzJmODAyYjhhMzgzY2QzMTM3ZCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTIwMjkwNjksImV4cCI6MTcyMzU2NTA2OX0.Pwr3CNa1kX97BzuDv7YU0AWqWQ3JH-VZ-eNBelHSBVE",
+ "updatedUser": {
+    "name": "UpdatedMekler",
+    "email": "UpdatedMekler@gmail.com",
+    "password": "123456789"
+    }
+}
 
 

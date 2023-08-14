@@ -45,6 +45,21 @@ const logoutAuth = (req, res, next) =>{
     
 }
 
+const updatedUserAuth = (req, res, next) =>{
+    const {name, email, password} = req.body.updatedUser;
+    if (!name || !email || !password) {
+        return res.status(400).json({ error: "Please fill all the fields" });
+    }
+    //regex for email
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+        return res.status(400).json({ error: "Please enter a valid email" });
+    }
+    if(password.length < 8){
+        return res.status(400).json({ error: "Password must be at least 8 characters" });
+    }
+    next();
+}
+
 const adminAuth = (req, res, next) =>{
     const token = req.body.token;
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
@@ -65,5 +80,6 @@ module.exports = {
     loginAuth,
     registerAuth,
     logoutAuth,
-    adminAuth
+    adminAuth,
+    updatedUserAuth
 }

@@ -11,7 +11,7 @@ router
 .post('/user-details', validations.checkToken, userController.getUserDetails)
 .post('/', userController.createUser)
 .delete('/:id', validations.checkToken, userController.deleteUser)
-.patch('/:id', userController.updateUser) 
+.put('/', validations.checkToken, validations.updatedUserAuth, userController.updateUser) 
 
 
 
