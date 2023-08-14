@@ -1,5 +1,7 @@
 const Order = require('../models/OrderSchema');
 const {Types: {ObjectId}} = require('mongoose');
+const usersService = require('./users.service');
+const OrderSchema = require('../models/OrderSchema');
 const getAllOrders = async () => {
     const orders = await Order.find();
     return orders;
@@ -78,11 +80,28 @@ const updateOrder = async (id, order) => {
     }
 }
 
+const deleteAllOrders = async () => {
+    const orders = await OrderSchema.deleteMany();
+    //delete all order songs from the users song list
+    for(let i = 0; i < orders.length; i++){
+        const user = await usersService.getUserById(orders[i].user);
+        user.songs = user.songs.filter(song => !orders[i].songs.includes(song));
+        await usersService.updateUser(user._id, user);
+        for(let j = 0; j < orders[i].songs.length; j++){
+            const song = await songsService.getSongById(orders[i].songs[j]);
+            song.numOfPurchases--;
+            await songsService.updateSong(song._id, song);
+        }
+    }
+    return orders;
+}
+
 module.exports = {
     getAllOrders,
     getOrdersByUser,
     getOrderById,
     createOrder,
     deleteOrder,
+    deleteAllOrders,
     updateOrder
 }

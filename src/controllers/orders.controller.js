@@ -69,10 +69,10 @@ const deleteOrder = async (req, res) => {
         const order = await ordersService.deleteOrder(id);
         const user = await userService.getUserById(order.user);
         for(let i = 0; i < order.songs.length; i++){
-            order.songs[i] = await songService.getSongById(order.songs[i]);
-            order.songs[i].numOfPurchases--;
-            songService.updateSong(order.songs[i]._id, order.songs[i]);
-            user.songs.filter(song => song !== order.songs[i]);
+            const songi = await songService.getSongById(order.songs[i]);
+            songi.numOfPurchases--;
+            songService.updateSong(songi._id, songi);
+            user.songs.filter(song => song !== songi);
         }
         user.orders = user.orders.filter(order => order !== id);
         userService.updateUser(user._id, user);
@@ -84,11 +84,15 @@ const deleteOrder = async (req, res) => {
 }
 
 //todo: delete all orders
-const deleteAllOrders = async (Order) => {
-    const orders = await ordersService.getAllOrders();
-    for(let i = 0; i < orders.length; i++){
-        deleteOrder(orders[i]._id);
+const deleteAllOrders = async (req, res) => {
+    try{
+        const orders = await ordersService.deleteAllOrders();
+        res.status(200).json(orders);
     }
+    catch(error){
+        res.status(500).json({ message: error.message });
+    }
+
 
 }
 
@@ -110,5 +114,6 @@ module.exports = {
     getOrderById,
     createOrder,
     deleteOrder,
+    deleteAllOrders,
     updateOrder
 }

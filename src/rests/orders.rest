@@ -14,3 +14,7 @@ content-type: application/json
             ]
             }
 }
+
+###
+
+DELETE http://localhost:6969/orders/

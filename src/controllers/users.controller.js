@@ -39,6 +39,22 @@ const getUserByEmail = async (req, res) => {
     }
 }
 
+const getUserDetails = async (req, res) => {
+    try {
+        const {token} = req.body;
+        const decodedToken = jwt.decode(token);
+        const userId = decodedToken.id;
+        const user = await userService.getUserById(userId);
+        //delete password key from user object
+        user.password = undefined;
+        console.log("user details",user);
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
+
 const createUser = async (req, res) => {
     try {
         console.log(req)
@@ -158,6 +174,7 @@ module.exports = {
     getUserById,
     getUserByName,
     getUserByEmail,
+    getUserDetails,
     createUser,
     deleteUser,
     updateUser,

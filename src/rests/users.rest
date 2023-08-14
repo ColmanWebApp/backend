@@ -13,10 +13,27 @@ content-type: application/json
 
 ###
 
-POST http://localhost:6969/users/check-song/64d2a2af3a54f70b2c2883f3 HTTP/1.1
+POST http://localhost:6969/users/user-details/ HTTP/1.1
 content-type: application/json
 
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Y2NkYTViMjE1MDVkN2Y2MjdlNDVkYSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTE5NTY2ODcsImV4cCI6MTcyMzQ5MjY4N30.rQZyR5nAJS0bzjgFa1JbvawQPOq3aiOYVoC0Ts5MwZc"
 
 }
+
+###
+PATCH http://localhost:6969/users/64d94d416c1776349bc1f88e HTTP/1.1
+content-type: application/json
+
+ {
+    "_id": "64d94d416c1776349bc1f88e",
+    "name": "test5",
+    "email": "test5@gmail.com",
+    "password": "123456789",
+    "isAdmin": false,
+    "songs": [],
+    "orders": [],
+    "__v": 0
+  }
+
+
