@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const Song = require('../models/song.model');
 
+// maybe...
 const getSalesPerMonths = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -13,6 +14,7 @@ const getSalesPerMonths = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerYear = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -24,7 +26,21 @@ const getSalesPerYear = async () => {
     ]);
     return sales;
 }
+//get sales per day - havent used yet --> column chart width days for the last 10 days
+const getSalesPerDay = async () => {
+    const sales = await User.aggregate([
+        {$unwind: "$songs"},
+        {$group: {
+                _id: {$dayOfMonth: "$songs.date"},
+                count: {$sum: 1}
+            }},
+        {$sort: {_id: 1}}
+    ]);
+    return sales;
+}
 
+
+//not needed
 const getSalesPerSong = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -37,6 +53,7 @@ const getSalesPerSong = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerArtist = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -56,6 +73,7 @@ const getSalesPerArtist = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerAlbum = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -75,6 +93,7 @@ const getSalesPerAlbum = async () => {
     return sales;
 }
 
+//Pie Chart
 const getSalesPerGenre = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -95,6 +114,7 @@ const getSalesPerGenre = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerUser = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -107,6 +127,7 @@ const getSalesPerUser = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerUserPerMonth = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -119,6 +140,7 @@ const getSalesPerUserPerMonth = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerUserPerYear = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -131,6 +153,7 @@ const getSalesPerUserPerYear = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerUserPerSong = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -143,6 +166,7 @@ const getSalesPerUserPerSong = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerUserPerArtist = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -162,6 +186,7 @@ const getSalesPerUserPerArtist = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerUserPerAlbum = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -181,6 +206,7 @@ const getSalesPerUserPerAlbum = async () => {
     return sales;
 }
 
+//not needed
 const getSalesPerUserPerGenre = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -201,6 +227,7 @@ const getSalesPerUserPerGenre = async () => {
     return sales;
 }
 
+//maybe for the admin
 const getLastFiveSales = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -210,6 +237,7 @@ const getLastFiveSales = async () => {
     return sales;
 }
 
+//not needed
 const getTodaySales = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -222,6 +250,7 @@ const getTodaySales = async () => {
     return sales;
 }
 
+//not needed
 const getMostSoldAlbums = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -242,6 +271,7 @@ const getMostSoldAlbums = async () => {
     return sales;
 }
 
+//not needed
 const getMostSoldSongs = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -255,6 +285,7 @@ const getMostSoldSongs = async () => {
     return sales;
 }
 
+//not needed
 const getMostSoldArtists = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
@@ -275,6 +306,7 @@ const getMostSoldArtists = async () => {
     return sales;
 }
 
+//not needed
 const getMostSoldGenres = async () => {
     const sales = await User.aggregate([
         {$unwind: "$songs"},
