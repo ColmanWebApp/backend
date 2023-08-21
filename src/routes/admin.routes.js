@@ -6,7 +6,7 @@ const songController = require('../controllers/songs.controller');
 const validations = require('../validations/index')
 
 router
-.get('/',validations.checkToken, validations.adminAuth, userController.updateUser, userController.getAllUsers)
+.get('/users',validations.checkToken, validations.adminAuth, userController.updateUser, userController.getAllUsers)
 .put('/users/:userId', validations.checkToken, validations.adminAuth, userController.updateUser)
 .delete('/users/:userId', validations.checkToken, validations.adminAuth, userController.deleteUser)
 .get('/', validations.checkToken, validations.adminAuth, songController.getAllSongs)
