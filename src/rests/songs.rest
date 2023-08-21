@@ -52,11 +52,11 @@ curl -X POST "https://accounts.spotify.com/api/token" \
 
 
 curl "https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb" \
-     -H "Authorization: Bearer  BQDazNiMEVp4f8LnNlmo-yw2vQkHwTU0f_vUPBBs9utl0_F81jhU1FANTvJOeHD0M7L3Ovzd39Qf1fjfgLl96Inx_BcwF3q-2owjnm7WECDeHYe2FiU"
+     -H "Authorization: Bearer  BQBdWDY-sm-Po6Sja3ZelwCi5HVtOER6Os4_BzgvLRcpS9hzuES0UUF_TsXOhSoWLxmBwir2JshDAffsbpVpFkksPfT2UbwcMdoJjVDs4BRk1epIl40"
 
 
 ###
 
 curl --request GET \
   --url https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy \
-  --header 'Authorization: Bearer BQDazNiMEVp4f8LnNlmo-yw2vQkHwTU0f_vUPBBs9utl0_F81jhU1FANTvJOeHD0M7L3Ovzd39Qf1fjfgLl96Inx_BcwF3q-2owjnm7WECDeHYe2FiU'
+  --header 'Authorization: Bearer BQBdWDY-sm-Po6Sja3ZelwCi5HVtOER6Os4_BzgvLRcpS9hzuES0UUF_TsXOhSoWLxmBwir2JshDAffsbpVpFkksPfT2UbwcMdoJjVDs4BRk1epIl40'

@@ -65,14 +65,14 @@ const createOrder = async (req, res) => {
 //todo: make it a service
 const deleteOrder = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.params.orderId;
         const order = await ordersService.deleteOrder(id);
         const user = await userService.getUserById(order.user);
         for(let i = 0; i < order.songs.length; i++){
             const songi = await songService.getSongById(order.songs[i]);
             songi.numOfPurchases--;
             songService.updateSong(songi._id, songi);
-            user.songs.filter(song => song !== songi);
+            user.songs = user.songs.filter(song => song.toHexString() !== songi._id.toHexString());
         }
         user.orders = user.orders.filter(order => order !== id);
         userService.updateUser(user._id, user);
@@ -92,17 +92,15 @@ const deleteAllOrders = async (req, res) => {
     catch(error){
         res.status(500).json({ message: error.message });
     }
-
-
 }
 
 //not necessary....
 const updateOrder = async (req, res) => {
     try {
-        const id = req.params.id;
-        const order = req.body;
-        const updatedOrder = await ordersService.updateOrder(id, order);
-        res.status(200).json(updatedOrder);
+        const orderId = req.params.id;
+        const {updatedOrder} = req.body;
+        const newOrder = await ordersService.updateOrder(orderId, updatedOrder);
+        res.status(200).json(newOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

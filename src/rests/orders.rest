@@ -17,4 +17,4 @@ content-type: application/json
 
 ###
 
-DELETE http://localhost:6969/orders/
+DELETE http://localhost:6969/orders/64e32ee18b9ce25610534f92

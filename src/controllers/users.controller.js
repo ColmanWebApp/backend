@@ -77,10 +77,11 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
+        const userIdParams = req.params.userId;
         const {token} = req.body;
         const {name, email, password} = req.body.updatedUser;
         const decodedToken = jwt.decode(token);
-        const userId = decodedToken.id;
+        const userId =userIdParams? userIdParams: decodedToken.id;
         const user = await userService.getUserById(userId);
         user.name = name;
         user.email = email;

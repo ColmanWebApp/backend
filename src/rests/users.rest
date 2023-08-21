@@ -1,9 +1,6 @@
-POST http://localhost:6969/users/user-details/
+GET http://localhost:6969/users/
 content-type: application/json
 
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDQ4YzJmODAyYjhhMzgzY2QzMTM3ZCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTIwMzE2NjYsImV4cCI6MTcyMzU2NzY2Nn0.tjuIQKWiPuiVS-KhKGeUexsCsjg5JClO8Y7lkOj9eyw"
-}
 
 ###
 

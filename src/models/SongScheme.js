@@ -68,6 +68,7 @@ const SongScheme = new mongoose.Schema({
         minlength: 1,
         maxlength: 5,
         default: 19.99,
+        min: 0
     },
     preview_url: {
         type: String,
