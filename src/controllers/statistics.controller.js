@@ -9,6 +9,16 @@ const getSalesPerMonths = async (req, res) => {
     }
 }
 
+//get songs per genre
+const getSongsPerGenre = async (req, res) => {
+    try {
+        const songs = await statisticsService.getSongsPerGenre();
+        res.status(200).json(songs);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
 const getSalesPerYears = async (req, res) => {
     try {
         const sales = await statisticsService.getSalesPerYears();
@@ -18,9 +28,9 @@ const getSalesPerYears = async (req, res) => {
     }
 }
 
-const getSalesPerGenres = async (req, res) => {
+const getSalesPerGenre = async (req, res) => {
     try {
-        const sales = await statisticsService.getSalesPerGenres();
+        const sales = await statisticsService.getSalesPerGenre();
         res.status(200).json(sales);
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -111,7 +121,7 @@ const getTodaySales = async (req, res) => {
 module.exports = {
     getSalesPerMonths,
     getSalesPerYears,
-    getSalesPerGenres,
+    getSalesPerGenre,
     getSalesPerArtists,
     getSalesPerAlbums,
     getSalesPerSongs,
@@ -120,5 +130,6 @@ module.exports = {
     getMostSoldArtists,
     getMostSoldGenres,
     getLastFiveSales,
-    getTodaySales
+    getTodaySales,
+    getSongsPerGenre
 }

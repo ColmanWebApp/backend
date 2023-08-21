@@ -1,5 +1,6 @@
-const User = require('../models/user.model');
-const Song = require('../models/song.model');
+const User = require('../models/UserScheme');
+const Song = require('../models/SongScheme');
+const Order = require('../models/OrderSchema');
 
 // maybe...
 const getSalesPerMonths = async () => {
@@ -93,26 +94,41 @@ const getSalesPerAlbum = async () => {
     return sales;
 }
 
-//Pie Chart
+//group all the order.songs from orders by genre and count them
 const getSalesPerGenre = async () => {
-    const sales = await User.aggregate([
-        {$unwind: "$songs"},
-        {$lookup: {
-                from: "songs",
-                localField: "songs.song",
-                foreignField: "_id",
-                as: "song"
-            }},
-        {$unwind: "$song"},
-        {$unwind: "$song.genre"},
-        {$group: {
-                _id: "$song.genre",
-                count: {$sum: 1}
-            }},
-        {$sort: {_id: 1}}
+    const sales = await Order.aggregate([
+        {
+          $lookup: {
+            from: 'songs', // Name of the songs collection
+            localField: 'songs',
+            foreignField: '_id',
+            as: 'purchasedSongs',
+          },
+        },
+        {
+          $unwind: '$purchasedSongs',
+        },
+        {
+          $unwind: '$purchasedSongs.genre', // Unwind the genres array
+        },
+        {
+          $group: {
+            _id: '$purchasedSongs.genre', // Group by individual genres
+            count: { $sum: 1 }, // Count the occurrences of each genre
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            count: 1,
+          },
+        },
     ]);
     return sales;
 }
+
+
+
 
 //not needed
 const getSalesPerUser = async () => {
@@ -328,6 +344,18 @@ const getMostSoldGenres = async () => {
     return sales;
 }
 
+const getSongsPerGenre = async () => {
+    const songs = await Song.aggregate([
+        {$unwind: "$genre"},
+        {$group: {
+                _id: "$genre",
+                count: {$sum: 1}
+            }},
+        {$sort: {_id: 1}}
+    ]);
+    return songs;
+}
+
 module.exports = {
     getSalesPerMonths,
     getSalesPerYear,
@@ -347,7 +375,8 @@ module.exports = {
     getMostSoldAlbums,
     getMostSoldSongs,
     getMostSoldArtists,
-    getMostSoldGenres
+    getMostSoldGenres,
+    getSongsPerGenre
 }
 
 

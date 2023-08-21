@@ -209,6 +209,7 @@ const increaseNumOfPurchases = async (id) => {
     throw new Error('Id is required');
 }
 
+
 module.exports = {
     getAllSongs,
     getSongsByIds,
