@@ -64,7 +64,7 @@ const getSongsByYear = async (req, res) => {
 
 const getSongById = async (req, res) => {
     try {
-        const {id} = req.params.songId;
+        const id = req.params.songId;
         const song = await songService.getSongById(id);
         res.status(200).json(song);
     } catch (error) {
@@ -86,7 +86,7 @@ const createSong = async (req, res) => {
 
 const deleteSong = async (req, res) => {
     try {
-        const {songId} = req.params;
+        const id = req.params.songId;
         await songService.deleteSong(id);
         res.status(200).json({ message: 'Song deleted successfully' });
     } catch (error) {
@@ -96,9 +96,9 @@ const deleteSong = async (req, res) => {
 
 const updateSong = async (req, res) => {
     try {
-        const {id} = req.params.songId;
+        const id = req.params.songId;
         const {updatedSong} = req.body;
-        await songService.updateSong(id, newSong);
+        await songService.updateSong(id, updatedSong);
         res.status(200).json({ message: 'Song updated successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });
