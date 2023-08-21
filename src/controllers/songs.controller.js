@@ -64,7 +64,7 @@ const getSongsByYear = async (req, res) => {
 
 const getSongById = async (req, res) => {
     try {
-        const {songId} = req.params;
+        const {id} = req.params.songId;
         const song = await songService.getSongById(id);
         res.status(200).json(song);
     } catch (error) {
@@ -96,7 +96,7 @@ const deleteSong = async (req, res) => {
 
 const updateSong = async (req, res) => {
     try {
-        const {songId} = req.params;
+        const {id} = req.params.songId;
         const {updatedSong} = req.body;
         await songService.updateSong(id, newSong);
         res.status(200).json({ message: 'Song updated successfully' });
