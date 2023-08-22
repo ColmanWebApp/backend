@@ -53,8 +53,6 @@ const SongScheme = new mongoose.Schema({
     album_image: {
         type: String,
         trim: true,
-        minlength: 3,
-        maxlength: 500,
         default: 'https://www.freeiconspng.com/uploads/no-image-icon-4.png'
     },
     numOfPurchases : {

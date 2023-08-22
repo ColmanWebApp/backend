@@ -5,7 +5,6 @@ const curl = require('curl');
 const getAllSongs = async (req, res) => {
     try {
         const songs = await songService.getAllSongs();
-        console.log(songs)
         res.status(200).json(songs);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -76,7 +75,6 @@ const getSongById = async (req, res) => {
 const createSong = async (req, res) => {
     try {
         const {song} = req.body;
-        console.log(song)
         const newSong = await songService.createSong(song);
         res.status(201).json(newSong);
     } catch (error) {

@@ -34,7 +34,6 @@ const getOrderById = async (id) => {
 }
 
 const createOrder = async (order) => {
-    console.log("inside order",order)
     const newOrder = new Order({user: order.user, songs: order.songs});
     await newOrder.save();
     return newOrder;

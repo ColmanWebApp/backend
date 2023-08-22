@@ -37,7 +37,6 @@ const createOrder = async (req, res) => {
     try {
         const {order, token} = req.body;
         const decodedToken = jwt.decode(token);
-        console.log(decodedToken)
         const user = await userService.getUserById(decodedToken.id);
         const mySongs = [];
         for(let i = 0; i < order.songs.length; i++){
@@ -46,7 +45,6 @@ const createOrder = async (req, res) => {
         }
         order.user = user._id;
         const newOrder = await ordersService.createOrder(order);
-        console.log(newOrder);
         for(let i = 0; i < mySongs.length; i++){
             songService.increaseNumOfPurchases(mySongs[i]);
         }

@@ -31,7 +31,6 @@ const getUserByName = async (req, res) => {
 
 const getUserByEmail = async (req, res) => {
     try {
-        console.log(req.body)
         const user = await userService.getUserByEmail(req.body.email);
         res.status(200).json(user);
     } catch (error) {
@@ -58,7 +57,6 @@ const getUserDetails = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        console.log(req)
         const user = await userService.createUser(req.body);
         res.status(201).json(user);
     } catch (error) {
@@ -153,7 +151,6 @@ const userLogin = async (req, res) => {
         const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
             expiresIn: '365d',
         });
-        console.log(token);
         //console.log("decoded token",jwt.decode(token))
         res.status(200).json({token: token});
     } catch (error) {
@@ -164,10 +161,10 @@ const userLogin = async (req, res) => {
 const checkSong = async (req, res) => {
     try {
         const {token} = req.body;
-        const {id} = req.params;
+        const {songId} = req.params;
         const decodedToken = jwt.decode(token);
         const user = await userService.getUserById(decodedToken.id);
-        const song = user.songs.find(song => song._id == id);
+        const song = user.songs.find(song => song._id == songId);
         if(song){
             res.status(200).json({isExist: true});
         }else{

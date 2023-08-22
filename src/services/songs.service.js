@@ -137,7 +137,6 @@ const createSong = async (song) => {
        throw new Error('Song already exists');
     }
     else{
-        console.log("created")
         const newSong = new Song(
             {
                // _id: id,
@@ -165,8 +164,6 @@ const deleteSong = async (id) => {
     if (id) {
         try{
             const song = await Song.findById(id);
-            console.log("song",song)
-            console.log("id",id)
             if(!song){
                 throw new Error('Song not found');
             }
@@ -182,7 +179,6 @@ const deleteSong = async (id) => {
 
 const updateSong = async (id, newSong) => {
     if(id){
-        console.log("newSong:",newSong)
         const { title, artist, album, year, genre, duration} = newSong;
         if (!title || !artist || !album || year===undefined || !genre || duration===undefined) {
             throw new Error('All fields are required');
