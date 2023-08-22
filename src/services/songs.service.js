@@ -125,8 +125,8 @@ const getSongsByYear = async (year) => {
 const createSong = async (song) => {
     //create song and return it
 
-    const { title, artist, album, year, genre, duration, price, album_image, preview_url } = song;
-    if (!title || !artist || !album || year===undefined || duration===undefined) {
+    const { title, artist, album, year, genre, duration, price, album_image, preview_url, youtube_id } = song;
+    if (!title || !artist || !album || year===undefined || duration===undefined || youtube_id === undefined) {
         throw new Error('All fields are required');
     }
     //let id = title + artist + album + year;
@@ -137,20 +137,7 @@ const createSong = async (song) => {
        throw new Error('Song already exists');
     }
     else{
-        const newSong = new Song(
-            {
-               // _id: id,
-                title,
-                artist,
-                album,
-                year,
-                genre,
-                duration,
-                price,
-                album_image,
-                preview_url
-            }
-        );
+        const newSong = new Song(song);
          
         return await newSong.save();
     }
@@ -179,8 +166,8 @@ const deleteSong = async (id) => {
 
 const updateSong = async (id, newSong) => {
     if(id){
-        const { title, artist, album, year, genre, duration} = newSong;
-        if (!title || !artist || !album || year===undefined || !genre || duration===undefined) {
+        const { title, artist, album, year, genre, duration, youtube_id} = newSong;
+        if (!title || !artist || !album || year===undefined || !genre || duration===undefined || youtube_id === undefined) {
             throw new Error('All fields are required');
         }
         await Song.findOneAndUpdate({_id: id}, newSong);

@@ -28,7 +28,7 @@ DELETE http://localhost:1234/songs/Plain_JaneA$AP_FergStill_Striving2017
 
 ###
 
-PATCH http://localhost:6969/songs/MekleronBurgeronBendaron2023 HTTP/1.1
+POST http://localhost:6969/songs/ HTTP/1.1
 content-type: application/json
 
 {
@@ -52,11 +52,17 @@ curl -X POST "https://accounts.spotify.com/api/token" \
 
 
 curl "https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb" \
-     -H "Authorization: Bearer  BQBdWDY-sm-Po6Sja3ZelwCi5HVtOER6Os4_BzgvLRcpS9hzuES0UUF_TsXOhSoWLxmBwir2JshDAffsbpVpFkksPfT2UbwcMdoJjVDs4BRk1epIl40"
+     -H "Authorization: Bearer  BQDZ4pJGEtAylpBZ8KGcWfuSeI0w9u-0HPBDbT9SUBQsLcg4-VnIsg3AmV2XV3GbELDE7nsTKCb4OSdkoB285FbQvsyI3Fz8dxPT232Ca4_05Vkbk6g"
 
 
 ###
 
 curl --request GET \
   --url https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy \
-  --header 'Authorization: Bearer BQBdWDY-sm-Po6Sja3ZelwCi5HVtOER6Os4_BzgvLRcpS9hzuES0UUF_TsXOhSoWLxmBwir2JshDAffsbpVpFkksPfT2UbwcMdoJjVDs4BRk1epIl40'
+  --header 'Authorization: Bearer BQDZ4pJGEtAylpBZ8KGcWfuSeI0w9u-0HPBDbT9SUBQsLcg4-VnIsg3AmV2XV3GbELDE7nsTKCb4OSdkoB285FbQvsyI3Fz8dxPT232Ca4_05Vkbk6g'
+
+###
+
+curl --request GET \
+  --url https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl \
+  --header 'Authorization: Bearer BQB3bdjpzmcMDp_K81IeJ8136mwMbHfHNMaQD-JZ5StWyy_hxYUQ0hs6uoDtAPkVmlTNSlKBn0ZjNyi9Pe5NFExD_4YRQDou2_D0qDdtaoCDH2GxMyU'

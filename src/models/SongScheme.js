@@ -73,7 +73,13 @@ const SongScheme = new mongoose.Schema({
         trim: true,
         maxlength: 500,
         default: '',
-    }
+    },
+    youtube_id: {
+        type: String,
+        trim: true,
+        default: '',
+        required: true
+    },
 });
 
 module.exports = mongoose.model('song', SongScheme, 'songs')
