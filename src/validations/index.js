@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const checkToken = (req, res, next) => {
     const {token} = req.body;
     if (!token) {
-        return res.status(401).json({message: "You must be logged in to access this resource"});
+        return res.status(401).json({message: "No token provided"});
     }
     jwt.verify(token, process.env.JWT_SECRET, (err) => {
         if (err) {
