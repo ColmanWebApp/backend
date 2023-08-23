@@ -118,6 +118,15 @@ const getTodaySales = async (req, res) => {
     }
 }
 
+const getLastTenDaysSales = async (req, res) => {
+    try {
+        const sales = await statisticsService.getLastTenDaysSales();
+        res.status(200).json(sales);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
 module.exports = {
     getSalesPerMonths,
     getSalesPerYears,
@@ -131,5 +140,6 @@ module.exports = {
     getMostSoldGenres,
     getLastFiveSales,
     getTodaySales,
-    getSongsPerGenre
+    getSongsPerGenre,
+    getLastTenDaysSales
 }

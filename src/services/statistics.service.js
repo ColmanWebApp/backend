@@ -356,6 +356,36 @@ const getSongsPerGenre = async () => {
     return songs;
 }
 
+const getLastTenDaysSales = async () => {
+    // Calculate the date ten days ago from today
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+  
+    // Aggregate sales data for the last ten consecutive days
+    const sales = await Order.aggregate([
+      {
+        $match: {
+          date: { $gte: tenDaysAgo } // Filter orders from the last ten days
+        }
+      },
+      { $unwind: "$songs" },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%d-%m-%Y", date: "$date" }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { _id: 1 } // Sort by date in ascending order
+      }
+    ]);
+  
+    return sales;
+  };
+    
+
 module.exports = {
     getSalesPerMonths,
     getSalesPerYear,
@@ -376,7 +406,8 @@ module.exports = {
     getMostSoldSongs,
     getMostSoldArtists,
     getMostSoldGenres,
-    getSongsPerGenre
+    getSongsPerGenre,
+    getLastTenDaysSales
 }
 
 

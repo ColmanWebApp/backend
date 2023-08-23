@@ -58,8 +58,8 @@ curl "https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb" \
 ###
 
 curl --request GET \
-  --url https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy \
-  --header 'Authorization: Bearer BQDZ4pJGEtAylpBZ8KGcWfuSeI0w9u-0HPBDbT9SUBQsLcg4-VnIsg3AmV2XV3GbELDE7nsTKCb4OSdkoB285FbQvsyI3Fz8dxPT232Ca4_05Vkbk6g'
+  --url https://api.spotify.com/v1/tracks/4dVpf9jZjcORqGTLUaeYj9 \
+  --header 'Authorization: Bearer BQB0EwP-y57VxzSkJP6NpM9NrG-8Jq0h40PZHFOfFAcR3Uww71Un-KI44kjHttzZRx2AxbRBQFCXm5J4U8K_NBDU7MyJ3zz-m-k0VufAEnoSY5Ha-9I'
 
 ###
 

@@ -16,5 +16,6 @@ router
 .get('/lastFiveSales', statisticsController.getLastFiveSales)
 .get('/todaySales', statisticsController.getTodaySales)
 .get('/songsPerGenre', statisticsController.getSongsPerGenre)
+.get('/lastTenDaysSales', statisticsController.getLastTenDaysSales)
 
 module.exports = router;
