@@ -81,7 +81,7 @@ const updateUser = async (req, res) => {
         const userId =userIdParams? userIdParams: decodedToken.id;
         const user = await userService.getUserById(userId);
         if(user.isAdmin && decodedToken.id === userId){
-            updateUser.isAdmin = true;
+            updatedUser.isAdmin = true;
         }
         const userAfterUpdate = await userService.updateUser(userId, updatedUser);
         userAfterUpdate.password = undefined;
