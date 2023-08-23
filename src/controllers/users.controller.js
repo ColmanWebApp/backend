@@ -79,6 +79,10 @@ const updateUser = async (req, res) => {
         const {token,updatedUser} = req.body;
         const decodedToken = jwt.decode(token);
         const userId =userIdParams? userIdParams: decodedToken.id;
+        const user = await userService.getUserById(userId);
+        if(user.isAdmin && decodedToken.id === userId){
+            updateUser.isAdmin = true;
+        }
         const userAfterUpdate = await userService.updateUser(userId, updatedUser);
         userAfterUpdate.password = undefined;
         res.status(200);
