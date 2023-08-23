@@ -16,7 +16,7 @@ const OrderSchema = new mongoose.Schema({
     ],
     date: {
         type: Date,
-        default: Date.now().addHours(3);
+        default: Date.now().addHours(3)
     }
 });
 
