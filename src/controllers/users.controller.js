@@ -76,17 +76,12 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const userIdParams = req.params.userId;
-        const {token} = req.body;
-        const {name, email, password} = req.body.updatedUser;
+        const {token,updatedUser} = req.body;
         const decodedToken = jwt.decode(token);
         const userId =userIdParams? userIdParams: decodedToken.id;
-        const user = await userService.getUserById(userId);
-        user.name = name;
-        user.email = email;
-        user.password = password;
-        const updatedUser = await userService.updateUser(userId, user);
-        updatedUser.password = undefined;
-        res.status(200).json(updatedUser);
+        const userAfterUpdate = await userService.updateUser(userId, updatedUser);
+        userAfterUpdate.password = undefined;
+        res.status(200);
     } catch (error) {
         res.status(500).json({message: error.message});
     }
