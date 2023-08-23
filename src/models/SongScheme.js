@@ -41,7 +41,8 @@ const SongScheme = new mongoose.Schema({
         trim: true,
         minlength: 3,
         maxlength: 50,
-        default: []
+        default: [],
+        validate: [(val) => val.length > 1, 'Must have minimum two options']
     },
     duration: {
         type: Number,
