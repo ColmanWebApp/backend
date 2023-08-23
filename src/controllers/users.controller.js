@@ -85,7 +85,7 @@ const updateUser = async (req, res) => {
         }
         const userAfterUpdate = await userService.updateUser(userId, updatedUser);
         userAfterUpdate.password = undefined;
-        res.status(200);
+        res.status(200).json({message: "User updated successfully"});
     } catch (error) {
         res.status(500).json({message: error.message});
     }
