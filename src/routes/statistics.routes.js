@@ -16,7 +16,7 @@ router
 .get('/mostSoldGenres', statisticsController.getMostSoldGenres)
 .get('/lastFiveSales', statisticsController.getLastFiveSales)
 .get('/todaySales', statisticsController.getTodaySales)
-.get('/songsPerGenre', validations.checkToken, validations.adminAuth, statisticsController.getSongsPerGenre)
-.get('/lastTenDaysSales', validations.checkToken, validations.adminAuth, statisticsController.getLastTenDaysSales)
+.get('/songsPerGenre', statisticsController.getSongsPerGenre)
+.get('/lastTenDaysSales', statisticsController.getLastTenDaysSales)
 
 module.exports = router;
