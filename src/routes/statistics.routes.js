@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const statisticsController = require('../controllers/statistics.controller');
+const validations = require('../validations');
 
 router
 .get('/salesPerMonths', statisticsController.getSalesPerMonths)
@@ -15,7 +16,7 @@ router
 .get('/mostSoldGenres', statisticsController.getMostSoldGenres)
 .get('/lastFiveSales', statisticsController.getLastFiveSales)
 .get('/todaySales', statisticsController.getTodaySales)
-.get('/songsPerGenre', statisticsController.getSongsPerGenre)
-.get('/lastTenDaysSales', statisticsController.getLastTenDaysSales)
+.get('/songsPerGenre', validations.checkToken, validations.adminAuth, statisticsController.getSongsPerGenre)
+.get('/lastTenDaysSales', validations.checkToken, validations.adminAuth, statisticsController.getLastTenDaysSales)
 
 module.exports = router;
