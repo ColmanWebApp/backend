@@ -2,6 +2,7 @@ const ordersService = require('../services/orders.service');
 const songService = require('../services/songs.service');
 const userService = require('../services/users.service');
 const jwt = require('jsonwebtoken');
+const {getSocket} = require('../utils/socketService');
 // const mongoose = require('mongoose');
 // const {Types: {ObjectId}} = require('mongoose');
 const getAllOrders = async (req, res) => {
@@ -41,19 +42,21 @@ const createOrder = async (req, res) => {
         const mySongs = [];
         for(let i = 0; i < order.songs.length; i++){
             const song = await songService.getSongById(order.songs[i]);
-            mySongs.push(song._id);
+            mySongs.push(song);
         }
         order.user = user._id;
         const newOrder = await ordersService.createOrder(order);
         for(let i = 0; i < mySongs.length; i++){
-            songService.increaseNumOfPurchases(mySongs[i]);
+            songService.increaseNumOfPurchases(mySongs[i]._id);
         }
         //await userService.addOrderToUser(user._id, newOrder._id);
         //await userService.addSongsToUser(user._id, mySongs);
         user.orders.push(newOrder._id);
-        user.songs.push(...mySongs.filter(song => !user.songs.includes(song)));
+        user.songs.push(...mySongs.filter(song => !user.songs.includes(song._id)));
         
         userService.updateUser(user._id, user);
+        const socket = getSocket();
+        socket.emit('newOrder', mySongs.map(song => ({"songId": song._id, "numOfPurchases": ++song.numOfPurchases})));
         res.status(200).json(newOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
