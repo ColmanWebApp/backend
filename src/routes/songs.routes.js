@@ -12,9 +12,7 @@ router
 .get('/album/:album', songController.getSongsByAlbum) // ^^
 .get('/genre/:genre', songController.getSongsByGenre) // ^^
 .get('/year/:year', songController.getSongsByYear) // ^^
-.post('/', validations.checkToken, validations.adminAuth, songController.createSong)
-.delete('/:songId', validations.checkToken, validations.adminAuth, songController.deleteSong)
-.patch('/:songId', validations.checkToken, validations.adminAuth, songController.updateSong)
+
     
 
 module.exports = router;

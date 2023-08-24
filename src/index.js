@@ -10,10 +10,12 @@ const getToken = require('./config/spotifyApi');
 const passport = require('passport');
 const session = require('express-session');
 const flash = require('express-flash');
-
+const socketio = require("socket.io");
+const {setSocket} = require('./utils/socketService');
 
 
 const PORT = process.env.PORT || 5000;
+const SOCKET_PORT = process.env.SOCKET_PORT || 3010;
 
 
 
@@ -31,6 +33,18 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+//socket.io
+const server = require("http").createServer(app);
+const io = socketio(server);
+setSocket(io);
+const { handleClient } = require("./utils/sockets");
+handleClient(io);
+
+// using socket comunicatin for the chat.
+server.listen(SOCKET_PORT, () => {
+  console.log(`Socket Server is running on port ${SOCKET_PORT}`);
+});
 
 //routes
 app.use('/songs', require('./routes/songs.routes'));

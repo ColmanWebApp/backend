@@ -56,7 +56,7 @@ const createOrder = async (req, res) => {
         
         userService.updateUser(user._id, user);
         const socket = getSocket();
-        socket.emit('newOrder', mySongs.map(song => ({"songId": song._id, "numOfPurchases": ++song.numOfPurchases})));
+        socket.emit('updateSongNumOfPurchases', mySongs.map(song => ({"songId": song._id, "numOfPurchases": ++song.numOfPurchases})));
         res.status(200).json(newOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -69,15 +69,17 @@ const deleteOrder = async (req, res) => {
         const id = req.params.orderId;
         const order = await ordersService.deleteOrder(id);
         const user = await userService.getUserById(order.user);
+        const orderSongs = []
         for(let i = 0; i < order.songs.length; i++){
             const songi = await songService.getSongById(order.songs[i]);
             songi.numOfPurchases--;
+            orderSongs.push(songi);
             songService.updateSong(songi._id, songi);
             user.songs = user.songs.filter(song => song.toHexString() !== songi._id.toHexString());
         }
         user.orders = user.orders.filter(order => order !== id);
         userService.updateUser(user._id, user);
-        
+        socket.emit('updateSongNumOfPurchases', orderSongs.map(song => ({"songId": song._id, "numOfPurchases": song.numOfPurchases})));
         res.status(200).json(order);
     } catch (error) {
         res.status(500).json({ message: error.message });

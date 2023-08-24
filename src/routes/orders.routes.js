@@ -10,6 +10,5 @@ router
 .post('/', validations.checkToken, orderController.createOrder)
 .delete('/:id', orderController.deleteOrder)
 .delete('/', orderController.deleteAllOrders)
-.patch('/:id', validations.checkToken, validations.adminAuth, orderController.updateOrder)
 
 module.exports = router;
