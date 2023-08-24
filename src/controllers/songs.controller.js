@@ -84,6 +84,7 @@ const createSong = async (req, res) => {
             myGenre = myGenre.map(word => word[0].toUpperCase() + word.slice(1));
             return myGenre.join('-');
         });
+        song.genre = titleCaseGenres;
         const newSong = await songService.createSong(song);
         res.status(201).json(newSong);
     } catch (error) {
