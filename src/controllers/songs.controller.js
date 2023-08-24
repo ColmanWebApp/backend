@@ -80,7 +80,8 @@ const createSong = async (req, res) => {
             let myGenre = genre.split(' ');
             myGenre = myGenre.map(word => word[0].toUpperCase() + word.slice(1));
             myGenre = myGenre.join('-');
-            myGenre = genre.split('-');
+            console.log("myGenre after TitleCase with spaces",myGenre);
+            myGenre = myGenre.split('-');
             myGenre = myGenre.map(word => word[0].toUpperCase() + word.slice(1));
             return myGenre.join('-');
         });
