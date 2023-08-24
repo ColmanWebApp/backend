@@ -95,8 +95,16 @@ const deleteAllOrders = async (req, res) => {
 //not necessary....
 const updateOrder = async (req, res) => {
     try {
-        const orderId = req.params.id;
+        const orderId = req.params.orderId;
         const {updatedOrder} = req.body;
+        // find all the deleted songs and update the numOfPurchases
+        const order = await ordersService.getOrderById(orderId);
+        const deletedSongs = order.songs.filter(song => !updatedOrder.songs.includes(song));
+        for(let i = 0; i < deletedSongs.length; i++){
+            const song = await songService.getSongById(deletedSongs[i]);
+            song.numOfPurchases--;
+            songService.updateSong(song._id, song);
+        }
         const newOrder = await ordersService.updateOrder(orderId, updatedOrder);
         res.status(200).json(newOrder);
     } catch (error) {
