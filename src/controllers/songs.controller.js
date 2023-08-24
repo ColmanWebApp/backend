@@ -75,6 +75,15 @@ const getSongById = async (req, res) => {
 const createSong = async (req, res) => {
     try {
         const {song} = req.body;
+        const genres = [...song.genre];
+        const titleCaseGenres = genres.map(genre => {
+            let myGenre = genre.split(' ');
+            myGenre = myGenre.map(word => word[0].toUpperCase() + word.slice(1));
+            myGenre = myGenre.join('-');
+            myGenre = genre.split('-');
+            myGenre = myGenre.map(word => word[0].toUpperCase() + word.slice(1));
+            return myGenre.join('-');
+        });
         const newSong = await songService.createSong(song);
         res.status(201).json(newSong);
     } catch (error) {
