@@ -99,13 +99,16 @@ const updateOrder = async (req, res) => {
         const {updatedOrder} = req.body;
         // find all the deleted songs and update the numOfPurchases
         const order = await ordersService.getOrderById(orderId);
+        const user = await userService.getUserById(order.user);
         const deletedSongs = order.songs.filter(song => !updatedOrder.songs.includes(song));
         for(let i = 0; i < deletedSongs.length; i++){
             const song = await songService.getSongById(deletedSongs[i]);
             song.numOfPurchases--;
             songService.updateSong(song._id, song);
+            user.songs = user.songs.filter(song => song.toHexString() !== song._id.toHexString());
         }
         const newOrder = await ordersService.updateOrder(orderId, updatedOrder);
+        userService.updateUser(user._id, user);
         res.status(200).json(newOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
