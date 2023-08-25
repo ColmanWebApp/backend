@@ -55,8 +55,12 @@ const createOrder = async (req, res) => {
         user.songs.push(...mySongs.filter(song => !user.songs.includes(song._id)));
         
         userService.updateUser(user._id, user);
-        const socket = getSocket();
-        socket.emit('updateSongNumOfPurchases', mySongs.map(song => ({"songId": song._id, "numOfPurchases": ++song.numOfPurchases})));
+        try{
+            const socket = getSocket();
+            socket.emit('updateSongNumOfPurchases', mySongs.map(song => ({"songId": song._id, "numOfPurchases": ++song.numOfPurchases})));
+        } catch(error){
+            console.log("error in socket", error);
+        }
         res.status(200).json(newOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -79,7 +83,12 @@ const deleteOrder = async (req, res) => {
         }
         user.orders = user.orders.filter(order => order !== id);
         userService.updateUser(user._id, user);
-        socket.emit('updateSongNumOfPurchases', orderSongs.map(song => ({"songId": song._id, "numOfPurchases": song.numOfPurchases})));
+        try{
+            const socket = getSocket();
+            socket.emit('updateSongNumOfPurchases', orderSongs.map(song => ({"songId": song._id, "numOfPurchases": song.numOfPurchases})));
+        } catch(error){
+            console.log("error in socket", error);
+        }
         res.status(200).json(order);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -102,18 +111,27 @@ const updateOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;
         const {updatedOrder} = req.body;
+        console.log("updatedOrder",updatedOrder)
         // find all the deleted songs and update the numOfPurchases
         const order = await ordersService.getOrderById(orderId);
         const user = await userService.getUserById(order.user);
-        const deletedSongs = order.songs.filter(song => !updatedOrder.songs.includes(song));
+        const deletedSongs = order.songs.map(song=>song.toHexString()).filter(song => !updatedOrder.songs.includes(song)); //todo: check if it works(its not filtering)
+        const updateToSocket = [];
         for(let i = 0; i < deletedSongs.length; i++){
             const song = await songService.getSongById(deletedSongs[i]);
             song.numOfPurchases--;
+            updateToSocket.push({"songId": song._id, "numOfPurchases": song.numOfPurchases});
             songService.updateSong(song._id, song);
             user.songs = user.songs.filter(song => song.toHexString() !== song._id.toHexString());
         }
         const newOrder = await ordersService.updateOrder(orderId, updatedOrder);
         userService.updateUser(user._id, user);
+        try{
+            const socket = getSocket();
+            socket.emit('updateSongNumOfPurchases',updateToSocket);
+        } catch(error){
+            console.log("error in socket", error);
+        }
         res.status(200).json(newOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
