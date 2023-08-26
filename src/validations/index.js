@@ -64,14 +64,13 @@ const updatedUserAuth = (req, res, next) =>{
 //checks if the user is an admin
 const adminAuth = (req, res, next) =>{
     const token = req.body.token;
-    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-        if (err) {
-            return res.status(403).json({message: "Invalid token"});
-        }
-        if(decodedToken.isAdmin === false){
-            return res.status(403).json({message: "You must be an admin to access this resource"});
-        }
-    });
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decodedToken) {
+        return res.status(403).json({message: "Invalid token"});
+    }
+    if(decodedToken.isAdmin === false){
+        return res.status(403).json({message: "You must be an admin to access this resource"});
+    }
     next();
 }
 
