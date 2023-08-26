@@ -57,7 +57,10 @@ const getUserDetails = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const user = await userService.createUser(req.body);
+        const user = {...req.body};
+        user.name = user.name.split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1).toLowerCase()).join(' ');
+        user.email = user.email.toLowerCase();
+        const createdUser = await userService.createUser(user);
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -83,6 +86,8 @@ const updateUser = async (req, res) => {
         if(user.isAdmin && decodedToken.id === userId){
             updatedUser.isAdmin = true;
         }
+        updatedUser.name = updatedUser.name.split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1).toLowerCase()).join(' ');
+        updatedUser.email = updatedUser.email.toLowerCase();
         const userAfterUpdate = await userService.updateUser(userId, updatedUser);
         userAfterUpdate.password = undefined;
         res.status(200).json({message: "User updated successfully"});
@@ -140,7 +145,7 @@ const removeSongFromUser = async (req, res) => {
 
 const userLogin = async (req, res) => {  
     try {
-        const user = await userService.getUserByEmail(req.body.email);
+        const user = await userService.getUserByEmail(req.body.email.toLowerCase());
         if (!user) {
             return res.status(400).json({ error: "Email not found" });
         }
