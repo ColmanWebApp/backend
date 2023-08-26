@@ -61,7 +61,7 @@ const createUser = async (req, res) => {
         user.name = user.name.split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1).toLowerCase()).join(' ');
         user.email = user.email.toLowerCase();
         const createdUser = await userService.createUser(user);
-        res.status(201).json(user);
+        res.status(201).json(createdUser);
     } catch (error) {
         res.status(500).json({message: error.message});
     }

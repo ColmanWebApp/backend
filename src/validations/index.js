@@ -38,6 +38,10 @@ const registerAuth = (req, res, next) =>{
     if(password.length < 8){
         return res.status(400).json({ error: "Password must be at least 8 characters" });
     }
+    //check if name contains digits
+    if(name.match(/\d/)){
+        return res.status(400).json({ error: "Name must not contain digits" });
+    }
     next();
 }
 
@@ -57,6 +61,10 @@ const updatedUserAuth = (req, res, next) =>{
     }
     if(password.length < 8){
         return res.status(400).json({ error: "Password must be at least 8 characters" });
+    }
+    //check if name contains digits
+    if(name.match(/\d/)){
+        return res.status(400).json({ error: "Name must not contain digits" });
     }
     next();
 }
