@@ -76,10 +76,14 @@ const createSong = async (req, res) => {
     try {
         const {song} = req.body;
         const genres = [...song.genre];
+        const duration = song.duration;
+        //check with regex that the duration is in the format mm:ss and the seconds is maximum 59
+        const reg = new RegExp('^[0-5][0-9]:[0-5][0-9]$');
+        if(!reg.test(duration)) return res.status(500).json({message: "Duration must be in the format mm:ss"});
         const price = song.price;
-        //chec with regex that the price doesnt contain letters (point is allowed)
-        const reg = new RegExp('^[0-9]+(\.[0-9]+)?$');
-        if(!reg.test(price)) return res.status(500).json({message: "Price must be a number"});
+        //check with regex that the price doesnt contain letters (point is allowed)
+        const reg2 = new RegExp('^[0-9]+(\.[0-9]+)?$');
+        if(!reg2.test(price)) return res.status(500).json({message: "Price must be a number"});
         if(updateSong.price < 0 ) return res.status(500).json({message: "Price cannot be negative"});
         const titleCaseGenres = genres.map(genre => {
             let myGenre = genre.split(' ');
@@ -112,12 +116,16 @@ const updateSong = async (req, res) => {
     try {
         const id = req.params.songId;
         const {updatedSong} = req.body;
+        const duration = updatedSong.duration;
+        //check if duration is in the format mm:ss and the seconds is maximum 59
+        const reg = new RegExp('^[0-5][0-9]:[0-5][0-9]$');
+        if(!reg.test(duration)) return res.status(500).json({message: "Duration must be in the format mm:ss"});
         const price = updatedSong.price;
         //check if price contains letters
-        const reg = new RegExp('^[0-9]+(\.[0-9]+)?$');
+        const reg2 = new RegExp('^[0-9]+(\.[0-9]+)?$');
         console.log(price)
         if(price < 0) return res.status(500).json({message: "Price cannot be negative"});
-        if(!reg.test(price)) return res.status(500).json({message: "Price must be a number"});
+        if(!reg2.test(price)) return res.status(500).json({message: "Price must be a number"});
         await songService.updateSong(id, updatedSong);
         res.status(200).json({ message: 'Song updated successfully' });
     } catch (error) {
