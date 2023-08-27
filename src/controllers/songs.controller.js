@@ -78,7 +78,7 @@ const createSong = async (req, res) => {
         const genres = [...song.genre];
         const duration = song.duration;
         //check with regex that the duration is in the format mm:ss and the seconds is maximum 59
-        const reg = new RegExp('^^(?:[0-5]\d):[0-5]\d$');
+        const reg = new RegExp('^(?:[0-5]\d):[0-5]\d$');
         if(!reg.test(duration)) return res.status(500).json({message: "Duration must be in the format mm:ss"});
         const price = song.price;
         //check with regex that the price doesnt contain letters (point is allowed)
