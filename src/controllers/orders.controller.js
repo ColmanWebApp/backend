@@ -111,7 +111,6 @@ const updateOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;
         const {updatedOrder} = req.body;
-        console.log("updatedOrder",updatedOrder)
         // find all the deleted songs and update the numOfPurchases
         const order = await ordersService.getOrderById(orderId);
         const user = await userService.getUserById(order.user);

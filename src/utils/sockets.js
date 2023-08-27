@@ -19,7 +19,7 @@ const handleClient = (io) => {
 
     socket.on("disconnect", () => {
       io.emit("message", "A user has left the chat");
-      console.log("User has left the chat");
+      console.log("Client has closed the socket");
     });
   });
 };

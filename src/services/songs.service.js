@@ -27,18 +27,6 @@ const getSongsByIds = async (ids) => {
     throw new Error('Ids are required');
 }
 
-// const getAllSongs = async () => {
-//     const token = await getToken();
-//     console.log("TOKEN",token)
-//     const result = await fetch('https://api.spotify.com/v1/playlists/4G1DX2LcILmurlDlJr40kZ', {
-//         method: 'GET',
-//         headers: {'Authorization': 'Bearer ' + token}
-//     });
-//     console.log("result",result)
-//     const data = await result.json();
-    
-//     return data;
-// }
 
 const getSongById = async (id) => {
     if (id) {

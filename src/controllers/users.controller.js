@@ -47,7 +47,6 @@ const getUserDetails = async (req, res) => {
         //delete password key from user object
         user.password = undefined;
         user.songs = undefined;
-        console.log("user details",user);
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -155,7 +154,6 @@ const userLogin = async (req, res) => {
         const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
             expiresIn: '365d',
         });
-        //console.log("decoded token",jwt.decode(token))
         res.status(200).json({token: token});
     } catch (error) {
         res.status(500).json({message: error.message});
