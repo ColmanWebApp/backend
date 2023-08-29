@@ -111,17 +111,21 @@ const updateOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;
         const {updatedOrder} = req.body;
+        console.log("updatedOrder", updatedOrder)
         // find all the deleted songs and update the numOfPurchases
         const order = await ordersService.getOrderById(orderId);
         const user = await userService.getUserById(order.user);
-        const deletedSongs = order.songs.map(song=>song.toHexString()).filter(song => !updatedOrder.songs.includes(song)); //todo: check if it works(its not filtering)
+        const deletedSongs = order.songs.map(song=>song.toHexString()).filter(song => !updatedOrder.songs.includes(song));
+        console.log("orderSongs", order.songs)
+        console.log("mapped orderSongs", order.songs.map(song=>song.toHexString()))
+        console.log("deleted", deletedSongs) //todo: check if it works(its not filtering)
         const updateToSocket = [];
         for(let i = 0; i < deletedSongs.length; i++){
             const song = await songService.getSongById(deletedSongs[i]);
             song.numOfPurchases--;
             updateToSocket.push({"songId": song._id, "numOfPurchases": song.numOfPurchases});
             songService.updateSong(song._id, song);
-            user.songs = user.songs.filter(song => song.toHexString() !== song._id.toHexString());
+            user.songs = user.songs.filter(s => s.toHexString() !== song._id.toHexString());
         }
         const newOrder = await ordersService.updateOrder(orderId, updatedOrder);
         userService.updateUser(user._id, user);
