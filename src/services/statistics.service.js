@@ -5,8 +5,8 @@ const Order = require('../models/OrderSchema');
 
 const getLastTenDaysSales = async () => {
     // Calculate the date ten days ago from today
-    const today = new Date();
-    const tenDaysAgo = today.setDate(today.getDate() - 10);
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
   
     // Aggregate sales data for the last ten consecutive days
     const sales = await Order.aggregate([
