@@ -79,10 +79,12 @@ const deleteOrder = async (req, res) => {
             songi.numOfPurchases--;
             orderSongs.push(songi);
             songService.updateSong(songi._id, songi);
-            user.songs = user.songs.filter(song => song.toHexString() !== songi._id.toHexString());
+            if(user) user.songs = user.songs.filter(song => song.toHexString() !== songi._id.toHexString());
         }
-        user.orders = user.orders.filter(order => order !== id);
-        userService.updateUser(user._id, user);
+        if(user){
+            user.orders = user.orders.filter(order => order !== id);
+            userService.updateUser(user._id, user);
+        }
         try{
             const socket = getSocket();
             socket.emit('updateSongNumOfPurchases', orderSongs.map(song => ({"songId": song._id, "numOfPurchases": song.numOfPurchases})));
