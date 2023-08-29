@@ -2,6 +2,72 @@ const User = require('../models/UserScheme');
 const Song = require('../models/SongScheme');
 const Order = require('../models/OrderSchema');
 
+
+const getLastTenDaysSales = async () => {
+    // Calculate the date ten days ago from today
+    const today = new Date();
+    const tenDaysAgo = today.setDate(today.getDate() - 10);
+  
+    // Aggregate sales data for the last ten consecutive days
+    const sales = await Order.aggregate([
+      {
+        $match: {
+          date: { $gte: tenDaysAgo } // Filter orders from the last ten days
+        }
+      },
+      { $unwind: "$songs" },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%d-%m-%Y", date: "$date" }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { _id: 1 } // Sort by date in ascending order
+      }
+    ]);
+  
+    return sales;
+  };
+
+
+
+  //group all the order.songs from orders by genre and count them
+const getSalesPerGenre = async () => {
+    const sales = await Order.aggregate([
+        {
+          $lookup: {
+            from: 'songs', // Name of the songs collection
+            localField: 'songs',
+            foreignField: '_id',
+            as: 'purchasedSongs',
+          },
+        },
+        {
+          $unwind: '$purchasedSongs',
+        },
+        {
+          $unwind: '$purchasedSongs.genre', // Unwind the genres array
+        },
+        {
+          $group: {
+            _id: '$purchasedSongs.genre', // Group by individual genres
+            count: { $sum: 1 }, // Count the occurrences of each genre
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            count: 1,
+          },
+        },
+    ]);
+    return sales;
+}
+
+
 // maybe...
 const getSalesPerMonths = async () => {
     const sales = await User.aggregate([
@@ -39,7 +105,6 @@ const getSalesPerDay = async () => {
     ]);
     return sales;
 }
-
 
 //not needed
 const getSalesPerSong = async () => {
@@ -93,42 +158,6 @@ const getSalesPerAlbum = async () => {
     ]);
     return sales;
 }
-
-//group all the order.songs from orders by genre and count them
-const getSalesPerGenre = async () => {
-    const sales = await Order.aggregate([
-        {
-          $lookup: {
-            from: 'songs', // Name of the songs collection
-            localField: 'songs',
-            foreignField: '_id',
-            as: 'purchasedSongs',
-          },
-        },
-        {
-          $unwind: '$purchasedSongs',
-        },
-        {
-          $unwind: '$purchasedSongs.genre', // Unwind the genres array
-        },
-        {
-          $group: {
-            _id: '$purchasedSongs.genre', // Group by individual genres
-            count: { $sum: 1 }, // Count the occurrences of each genre
-          },
-        },
-        {
-          $project: {
-            _id: 1,
-            count: 1,
-          },
-        },
-    ]);
-    return sales;
-}
-
-
-
 
 //not needed
 const getSalesPerUser = async () => {
@@ -356,34 +385,7 @@ const getSongsPerGenre = async () => {
     return songs;
 }
 
-const getLastTenDaysSales = async () => {
-    // Calculate the date ten days ago from today
-    const tenDaysAgo = new Date();
-    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-  
-    // Aggregate sales data for the last ten consecutive days
-    const sales = await Order.aggregate([
-      {
-        $match: {
-          date: { $gte: tenDaysAgo } // Filter orders from the last ten days
-        }
-      },
-      { $unwind: "$songs" },
-      {
-        $group: {
-          _id: {
-            $dateToString: { format: "%d-%m-%Y", date: "$date" }
-          },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $sort: { _id: 1 } // Sort by date in ascending order
-      }
-    ]);
-  
-    return sales;
-  };
+
     
 
 module.exports = {

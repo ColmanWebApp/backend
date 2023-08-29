@@ -1,8 +1,11 @@
 const statisticsService = require('../services/statistics.service');
 
-const getSalesPerMonths = async (req, res) => {
+
+
+
+const getLastTenDaysSales = async (req, res) => {
     try {
-        const sales = await statisticsService.getSalesPerMonths();
+        const sales = await statisticsService.getLastTenDaysSales();
         res.status(200).json(sales);
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -14,6 +17,17 @@ const getSongsPerGenre = async (req, res) => {
     try {
         const songs = await statisticsService.getSongsPerGenre();
         res.status(200).json(songs);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
+
+
+const getSalesPerMonths = async (req, res) => {
+    try {
+        const sales = await statisticsService.getSalesPerMonths();
+        res.status(200).json(sales);
     } catch (error) {
         res.status(500).json({message: error.message});
     }
@@ -118,14 +132,7 @@ const getTodaySales = async (req, res) => {
     }
 }
 
-const getLastTenDaysSales = async (req, res) => {
-    try {
-        const sales = await statisticsService.getLastTenDaysSales();
-        res.status(200).json(sales);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-}
+
 
 module.exports = {
     getSalesPerMonths,
