@@ -5,12 +5,9 @@ const validations = require('../validations/index')
 router
 .get('/', userController.getAllUsers)
 .get('/:userId', userController.getUserById)
-.get('/name/:name', userController.getUserByName)
 .get('/email/:email', userController.getUserByEmail)
 .post('/check-song/:userId', validations.checkToken, userController.checkSong)
 .post('/user-details', validations.checkToken, userController.getUserDetails)
-.post('/', userController.createUser)
-.delete('/:userId', validations.checkToken, userController.deleteUser)
 .put('/', validations.checkToken, validations.updatedUserAuth, userController.updateUser) 
 
 

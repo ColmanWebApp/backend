@@ -81,7 +81,8 @@ const createSong = async (req, res) => {
         //check with regex that the price doesnt contain letters (point is allowed)
         const reg = new RegExp('^[0-9]+(\.[0-9]+)?');
         if(!reg.test(price)) return res.status(500).json({message: "Price must be a number"});
-        if(updateSong.price < 0 ) return res.status(500).json({message: "Price cannot be negative"});
+        if(song.price < 0 ) return res.status(500).json({message: "Price cannot be negative"});
+        if(duration < 0) return res.status(500).json({message: "Duration cannot be negative"});
         const titleCaseGenres = genres.map(genre => {
             let myGenre = genre.split(' ');
             myGenre = myGenre.map(word => word[0].toUpperCase() + word.slice(1));
@@ -118,6 +119,7 @@ const updateSong = async (req, res) => {
         const reg = new RegExp('^[0-9]+(\.[0-9]+)?');
         if(price < 0) return res.status(500).json({message: "Price cannot be negative"});
         if(!reg.test(price)) return res.status(500).json({message: "Price must be a number"});
+        if(duration < 0) return res.status(500).json({message: "Duration cannot be negative"});
         await songService.updateSong(id, updatedSong);
         res.status(200).json({ message: 'Song updated successfully' });
     } catch (error) {

@@ -54,6 +54,10 @@ const createOrder = async (req, res) => {
         user.orders.push(newOrder._id);
         user.songs.push(...mySongs.filter(song => !user.songs.includes(song._id)));
         
+
+
+        
+
         userService.updateUser(user._id, user);
         try{
             const socket = getSocket();
@@ -108,19 +112,16 @@ const deleteAllOrders = async (req, res) => {
     }
 }
 
-//not necessary....
+
 const updateOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;
         const {updatedOrder} = req.body;
-        console.log("updatedOrder", updatedOrder)
         // find all the deleted songs and update the numOfPurchases
         const order = await ordersService.getOrderById(orderId);
         const user = await userService.getUserById(order.user);
+        if(!user) return res.status(500).json({message: "cannot update order of a deleted user"})
         const deletedSongs = order.songs.map(song=>song.toHexString()).filter(song => !updatedOrder.songs.includes(song));
-        console.log("orderSongs", order.songs)
-        console.log("mapped orderSongs", order.songs.map(song=>song.toHexString()))
-        console.log("deleted", deletedSongs) //todo: check if it works(its not filtering)
         const updateToSocket = [];
         for(let i = 0; i < deletedSongs.length; i++){
             const song = await songService.getSongById(deletedSongs[i]);
