@@ -12,7 +12,7 @@ const getAllLocations = async () => {
 const getLocationById = async (id) => {
     try {
         const location = await Location.findById(id);
-        if(!location) throw new Error('Location not found');
+        if (!location) throw new Error('Location not found');
         return location;
     } catch (error) {
         throw new Error(error.message);
@@ -39,7 +39,7 @@ const deleteLocation = async (id) => {
 }
 
 const updateLocation = async (id, updatedLocation) => {
-    try{
+    try {
         const location = await Location.findByIdAndUpdate(id, updatedLocation);
         return location;
     } catch (error) {

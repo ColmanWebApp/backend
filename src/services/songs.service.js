@@ -3,24 +3,24 @@ const getToken = require('../config/spotifyApi');
 
 
 const getAllSongs = async () => {
-    try{
+    try {
         return await Song.find();
     }
-    catch(error){
+    catch (error) {
         throw new Error(error.message)
     }
 }
 
 const getSongsByIds = async (ids) => {
-    if(ids){
-        try{
-            const songs = await Song.find({_id: {$in: ids}});
-            if(songs){
+    if (ids) {
+        try {
+            const songs = await Song.find({ _id: { $in: ids } });
+            if (songs) {
                 return songs;
             }
             throw new Error('Songs not found');
         }
-        catch(error){
+        catch (error) {
             throw new Error(error.message)
         }
     }
@@ -30,14 +30,14 @@ const getSongsByIds = async (ids) => {
 
 const getSongById = async (id) => {
     if (id) {
-        try{
+        try {
             const song = await Song.findById(id);
-            if(song){
+            if (song) {
                 return song;
             }
             throw new Error('Song not found');
         }
-        catch(error){
+        catch (error) {
             throw new Error(error.message)
         }
     }
@@ -46,14 +46,14 @@ const getSongById = async (id) => {
 
 const getSongsByArtist = async (artist) => {
     if (artist) {
-        try{
-            const songs = await Song.find({artist});
-            if(songs){
+        try {
+            const songs = await Song.find({ artist });
+            if (songs) {
                 return songs;
             }
             throw new Error('Artist not found');
         }
-        catch(error){
+        catch (error) {
             throw new Error(error.message)
         }
     }
@@ -62,15 +62,15 @@ const getSongsByArtist = async (artist) => {
 
 const getSongsByAlbum = async (album) => {
 
-    if(album){
-        try{
-            const songs = await Song.find({album});
-            if(songs){
+    if (album) {
+        try {
+            const songs = await Song.find({ album });
+            if (songs) {
                 return songs;
             }
             throw new Error('Album not found');
         }
-        catch(error){
+        catch (error) {
             throw new Error(error.message)
         }
     }
@@ -78,15 +78,15 @@ const getSongsByAlbum = async (album) => {
 }
 
 const getSongsByGenre = async (genre) => {
-    if(genre){
-        try{
-            const songs = await Song.find({genre});
-            if(songs){
+    if (genre) {
+        try {
+            const songs = await Song.find({ genre });
+            if (songs) {
                 return songs;
             }
             throw new Error('Genre not found');
         }
-        catch(error){
+        catch (error) {
             throw new Error(error.message)
         }
     }
@@ -94,15 +94,15 @@ const getSongsByGenre = async (genre) => {
 }
 
 const getSongsByYear = async (year) => {
-    if(year){
-        try{
-            const songs = await Song.find({year});
-            if(songs){
+    if (year) {
+        try {
+            const songs = await Song.find({ year });
+            if (songs) {
                 return songs;
             }
             throw new Error('Year not found');
         }
-        catch(error){
+        catch (error) {
             throw new Error(error.message)
         }
     }
@@ -113,8 +113,8 @@ const getSongsByYear = async (year) => {
 const createSong = async (song) => {
     //create song and return it
 
-    const { title, artist, album, year, genre, duration, price, album_image, preview_url, youtube_id } = song;
-    if (!title || !artist || !album || year===undefined || duration===undefined || youtube_id === undefined) {
+    const { title, artist, album, year, duration, price, album_image, preview_url, youtube_id } = song;
+    if (!title || !artist || !album || year === undefined || duration === undefined || youtube_id === undefined) {
         throw new Error('All fields are required');
     }
     //let id = title + artist + album + year;
@@ -122,14 +122,14 @@ const createSong = async (song) => {
 
     const checkSong = await Song.findOne(song);
     if (checkSong) {
-       throw new Error('Song already exists');
+        throw new Error('Song already exists');
     }
-    else{
+    else {
         const newSong = new Song(song);
-         
+
         return await newSong.save();
     }
-    
+
 
 }
 
@@ -137,9 +137,9 @@ const deleteSong = async (id) => {
     //delete song by id
     //if the song doesn't exist, throw an error
     if (id) {
-        try{
+        try {
             const song = await Song.findById(id);
-            if(!song){
+            if (!song) {
                 throw new Error('Song not found');
             }
             await Song.findByIdAndDelete(id);
@@ -147,28 +147,28 @@ const deleteSong = async (id) => {
 
         } catch (error) {
             throw new Error(error.message);
-        }    
+        }
     }
     throw new Error('Id is required');
 }
 
 const updateSong = async (id, newSong) => {
-    if(id){
-        const { title, artist, album, year, genre, duration, youtube_id} = newSong;
-        if (!title || !artist || !album || year===undefined || !genre || duration===undefined || youtube_id === undefined) {
+    if (id) {
+        const { title, artist, album, year, genre, duration, youtube_id } = newSong;
+        if (!title || !artist || !album || year === undefined || !genre || duration === undefined || youtube_id === undefined) {
             throw new Error('All fields are required');
         }
-        await Song.findOneAndUpdate({_id: id}, newSong);
+        await Song.findOneAndUpdate({ _id: id }, newSong);
         return;
     }
     throw new Error('Id is required');
 }
 
 const increaseNumOfPurchases = async (id) => {
-    if(id){
-        try{
+    if (id) {
+        try {
             const song = await Song.findById(id);
-            if(song){
+            if (song) {
                 song.numOfPurchases++;
                 updateSong(id, song);
                 return;

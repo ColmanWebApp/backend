@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 const express = require('express');
@@ -11,7 +11,7 @@ const passport = require('passport');
 const session = require('express-session');
 const flash = require('express-flash');
 const socketio = require("socket.io");
-const {setSocket} = require('./utils/socketService');
+const { setSocket } = require('./utils/socketService');
 
 
 const PORT = process.env.PORT || 5000;
@@ -43,7 +43,7 @@ handleClient(io);
 
 // using socket comunicatin for the chat.
 server.listen(SOCKET_PORT, () => {
-  console.log(`Socket Server is running on port ${SOCKET_PORT}`);
+    console.log(`Socket Server is running on port ${SOCKET_PORT}`);
 });
 
 //routes
@@ -53,7 +53,7 @@ app.use('/orders', require('./routes/orders.routes'));
 app.use('/auth', require('./routes/auth.routes'));
 app.use('/admin', require('./routes/admin.routes'));
 app.use('/statistics', require('./routes/statistics.routes'));
-app.use ('/locations', require('./routes/locations.routes'));
+app.use('/locations', require('./routes/locations.routes'));
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     connectDB();

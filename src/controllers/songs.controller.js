@@ -13,7 +13,7 @@ const getAllSongs = async (req, res) => {
 
 const getSongsByIds = async (req, res) => {
     try {
-        const {ids} = req.body;
+        const { ids } = req.body;
         const songs = await songService.getSongsByIds(ids);
         res.status(200).json(songs);
     } catch (error) {
@@ -23,7 +23,7 @@ const getSongsByIds = async (req, res) => {
 
 const getSongsByArtist = async (req, res) => {
     try {
-        const {artist} = req.params;
+        const { artist } = req.params;
         const songs = await songService.getSongsByArtist(artist);
         res.status(200).json(songs);
     } catch (error) {
@@ -33,7 +33,7 @@ const getSongsByArtist = async (req, res) => {
 
 const getSongsByAlbum = async (req, res) => {
     try {
-        const {album} = req.params;
+        const { album } = req.params;
         const songs = await songService.getSongsByAlbum(album);
         res.status(200).json(songs);
     } catch (error) {
@@ -43,7 +43,7 @@ const getSongsByAlbum = async (req, res) => {
 
 const getSongsByGenre = async (req, res) => {
     try {
-        const {genre} = req.params;
+        const { genre } = req.params;
         const songs = await songService.getSongsByGenre(genre);
         res.status(200).json(songs);
     } catch (error) {
@@ -53,7 +53,7 @@ const getSongsByGenre = async (req, res) => {
 
 const getSongsByYear = async (req, res) => {
     try {
-        const {year} = req.params;
+        const { year } = req.params;
         const songs = await songService.getSongsByYear(year);
         res.status(200).json(songs);
     } catch (error) {
@@ -74,15 +74,15 @@ const getSongById = async (req, res) => {
 
 const createSong = async (req, res) => {
     try {
-        const {song} = req.body;
+        const { song } = req.body;
         const genres = [...song.genre];
         const duration = song.duration;
         const price = song.price;
         //check with regex that the price doesnt contain letters (point is allowed)
         const reg = new RegExp('^[0-9]+(\.[0-9]+)?');
-        if(!reg.test(price)) return res.status(500).json({message: "Price must be a number"});
-        if(song.price < 0 ) return res.status(500).json({message: "Price cannot be negative"});
-        if(duration < 0) return res.status(500).json({message: "Duration cannot be negative"});
+        if (!reg.test(price)) return res.status(500).json({ message: "Price must be a number" });
+        if (song.price < 0) return res.status(500).json({ message: "Price cannot be negative" });
+        if (duration < 0) return res.status(500).json({ message: "Duration cannot be negative" });
         const titleCaseGenres = genres.map(genre => {
             let myGenre = genre.split(' ');
             myGenre = myGenre.map(word => word[0].toUpperCase() + word.slice(1));
@@ -112,20 +112,20 @@ const deleteSong = async (req, res) => {
 const updateSong = async (req, res) => {
     try {
         const id = req.params.songId;
-        const {updatedSong} = req.body;
+        const { updatedSong } = req.body;
         const duration = updatedSong.duration;
         const price = updatedSong.price;
         //check if price contains letters
         const reg = new RegExp('^[0-9]+(\.[0-9]+)?');
-        if(price < 0) return res.status(500).json({message: "Price cannot be negative"});
-        if(!reg.test(price)) return res.status(500).json({message: "Price must be a number"});
-        if(duration < 0) return res.status(500).json({message: "Duration cannot be negative"});
+        if (price < 0) return res.status(500).json({ message: "Price cannot be negative" });
+        if (!reg.test(price)) return res.status(500).json({ message: "Price must be a number" });
+        if (duration < 0) return res.status(500).json({ message: "Duration cannot be negative" });
         await songService.updateSong(id, updatedSong);
         res.status(200).json({ message: 'Song updated successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-    
+
 }
 
 module.exports = {
